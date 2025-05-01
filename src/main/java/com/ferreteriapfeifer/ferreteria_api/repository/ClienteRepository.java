@@ -4,13 +4,12 @@ package com.ferreteriapfeifer.ferreteria_api.repository;
 
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -39,5 +38,18 @@ public class ClienteRepository {
         } else {
             return null;
         }
+    }
+
+    public List<Cliente> getAll() throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME).get();
+        List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+
+        List<Cliente> clientes = new ArrayList<>();
+        for (QueryDocumentSnapshot doc : documents) {
+            Cliente cliente = doc.toObject(Cliente.class);
+            clientes.add(cliente);
+        }
+        return clientes;
     }
 }

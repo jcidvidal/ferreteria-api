@@ -5,6 +5,7 @@ import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -18,5 +19,8 @@ public class ClienteService {
     }
     public Cliente get(String clientId) throws ExecutionException, InterruptedException {
        return clienteRepository.get(clientId);
+    }
+    public List<Cliente> getAll() throws ExecutionException, InterruptedException {
+        return clienteRepository.getAll();
     }
 }
