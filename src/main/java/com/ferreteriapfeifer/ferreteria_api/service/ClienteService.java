@@ -20,7 +20,13 @@ public class ClienteService {
     public Cliente get(String clientId) throws ExecutionException, InterruptedException {
        return clienteRepository.get(clientId);
     }
+
     public List<Cliente> getAll() throws ExecutionException, InterruptedException {
         return clienteRepository.getAll();
     }
+
+    public void delete(String clientId) throws ExecutionException, InterruptedException {
+        clienteRepository.delete(clientId);
+        }
+
 }

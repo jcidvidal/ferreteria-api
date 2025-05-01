@@ -33,4 +33,13 @@ public class ClienteController {
         return cliente;
     }
 
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable String id) throws ExecutionException, InterruptedException {
+        clienteService.delete(id);
+        return "Cliente eliminado.";
+    }
+
+
+
 }
