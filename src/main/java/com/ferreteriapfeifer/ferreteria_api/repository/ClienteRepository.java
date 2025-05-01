@@ -40,6 +40,7 @@ public class ClienteRepository {
         }
     }
 
+
     public List<Cliente> getAll() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME).get();
@@ -51,5 +52,11 @@ public class ClienteRepository {
             clientes.add(cliente);
         }
         return clientes;
+    }
+    public void delete(String clientId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> writeResult = db.collection(COLLECTION_NAME).document(clientId).delete();
+        writeResult.get();
+
     }
 }
