@@ -13,7 +13,6 @@ public class Cliente extends Persona {
 
     @Schema(description = "ID único del cliente", example = "dcf7-3bcf-9ee4")
     private String idCliente;
-//TODO: Setear idCliente con uuidv4
 }
 
 
