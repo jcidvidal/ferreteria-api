@@ -1,11 +1,12 @@
 package com.ferreteriapfeifer.ferreteria_api.service;
 
-import ch.qos.logback.core.net.server.Client;
+
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.repository.ClienteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -17,6 +18,7 @@ public class ClienteService {
     }
 
     public void register(Cliente cliente) throws ExecutionException, InterruptedException {
+        cliente.setIdCliente(UUID.randomUUID().toString());
         clienteRepository.register(cliente);
     }
 
