@@ -1,12 +1,13 @@
 package com.ferreteriapfeifer.ferreteria_api.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+
 
 public abstract class Persona {
 

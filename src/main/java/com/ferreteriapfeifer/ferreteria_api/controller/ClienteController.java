@@ -5,6 +5,7 @@ import com.ferreteriapfeifer.ferreteria_api.service.ClienteService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -17,10 +18,10 @@ public class ClienteController {
 
     @PostMapping
     public String register(@RequestBody Cliente cliente) throws ExecutionException, InterruptedException {
+        cliente.setIdCliente(UUID.randomUUID().toString());
         clienteService.register(cliente);
         return "Cliente registrado.";
     }
-
     @GetMapping
     public List<Cliente> getAll() throws ExecutionException, InterruptedException {
         List<Cliente> clientes = clienteService.getAll();
