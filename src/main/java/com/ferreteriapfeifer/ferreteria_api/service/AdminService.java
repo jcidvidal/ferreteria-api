@@ -2,6 +2,8 @@ package com.ferreteriapfeifer.ferreteria_api.service;
 
 
 import com.ferreteriapfeifer.ferreteria_api.model.Admin;
+import com.ferreteriapfeifer.ferreteria_api.model.Persona;
+import com.ferreteriapfeifer.ferreteria_api.model.Producto;
 import com.ferreteriapfeifer.ferreteria_api.repository.AdminRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +39,12 @@ public class AdminService {
         adminRepository.delete(clientId);
     }
 
+
+    public void modificarStockSiEsAdmin(Persona usuario, Producto producto, int cantidad) {
+        if (usuario instanceof Admin) {
+            producto.modificarStock(cantidad);
+        } else {
+            throw new SecurityException("Solo los administradores pueden modificar el stock.");
+        }
+    }
 }
