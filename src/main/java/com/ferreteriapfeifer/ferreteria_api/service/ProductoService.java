@@ -21,21 +21,21 @@ public class ProductoService {
         this.productoRepository = productoRepository;
     }
 
-    public void register(Producto producto) throws ExecutionException, InterruptedException {
+    public void registrarProducto(Producto producto) throws ExecutionException, InterruptedException {
         producto.setIdProducto(UUID.randomUUID().toString());
-        productoRepository.register(producto);
+        productoRepository.registrarProducto(producto);
     }
 
-    public Producto get(String productoId) throws ExecutionException, InterruptedException {
-        return productoRepository.get(productoId);
+    public Producto obtenerIdProducto(String productoId) throws ExecutionException, InterruptedException {
+        return productoRepository.obtenerIdProducto(productoId);
     }
 
-    public List<Producto> getAll() throws ExecutionException, InterruptedException {
-        return productoRepository.getAll();
+    public List<Producto> obtenerProductos() throws ExecutionException, InterruptedException {
+        return productoRepository.obtenerProductos();
     }
 
-    public void delete(String productoId) throws ExecutionException, InterruptedException {
-        productoRepository.delete(productoId);
+    public void eliminarProducto(String productoId) throws ExecutionException, InterruptedException {
+        productoRepository.eliminarProducto(productoId);
     }
 
 }

@@ -27,17 +27,18 @@ public class ClienteController {
     @Operation(summary = "Registrar un cliente")
     @ApiResponse(responseCode = "201", description = "Cliente registrado correctamente")
     @PostMapping
-    public String register(@Valid @RequestBody Cliente cliente) throws ExecutionException, InterruptedException {
+    public String registrarCliente(@Valid @RequestBody Cliente cliente) throws ExecutionException, InterruptedException {
         cliente.setIdCliente(UUID.randomUUID().toString());
-        clienteService.register(cliente);
+        //TODO: Hashear contraseña
+        clienteService.registrarCliente(cliente);
         return "Cliente registrado.";
     }
 
     @Operation(summary = "Listar todos los clientes")
     @ApiResponse(responseCode = "200", description = "Lista de clientes obtenida con éxito")
     @GetMapping
-    public List<Cliente> getAll() throws ExecutionException, InterruptedException {
-        List<Cliente> clientes = clienteService.getAll();
+    public List<Cliente> obtenerClientes() throws ExecutionException, InterruptedException {
+        List<Cliente> clientes = clienteService.obtenerClientes();
         return clientes;
     }
 
@@ -47,8 +48,8 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
     @GetMapping("/{id}")
-    public Cliente get(@PathVariable String id) throws ExecutionException, InterruptedException {
-        Cliente cliente = clienteService.get(id);
+    public Cliente obtenerIdCliente(@PathVariable String idCliente) throws ExecutionException, InterruptedException {
+        Cliente cliente = clienteService.obtenerIdCliente(idCliente);
         return cliente;
     }
 
@@ -58,8 +59,8 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) throws ExecutionException, InterruptedException {
-        clienteService.delete(id);
+    public String eliminarCliente(@PathVariable String idCliente) throws ExecutionException, InterruptedException {
+        clienteService.eliminarCliente(idCliente);
         return "Cliente eliminado.";
     }
 

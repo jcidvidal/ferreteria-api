@@ -33,18 +33,18 @@ public class CompraController {
     @Operation(summary = "Registrar una nueva compra")
     @ApiResponse(responseCode = "201", description = "Compra registrada exitosamente")
     @PostMapping
-    public String register(@Valid @RequestBody Compra compra) throws ExecutionException, InterruptedException {
+    public String registrarCompra(@Valid @RequestBody Compra compra) throws ExecutionException, InterruptedException {
         compra.setIdCompra(UUID.randomUUID().toString());
         compra.setFechaPago(LocalDateTime.now());
-        compraService.register(compra);
+        compraService.registrarCompra(compra);
         return "Compra registrada correctamente.";
     }
 
     @Operation(summary = "Obtener todas las compras")
     @ApiResponse(responseCode = "200", description = "Compras obtenidas correctamente")
     @GetMapping
-    public List<Compra> getAll() throws ExecutionException, InterruptedException {
-        return compraService.getAll();
+    public List<Compra> obtenerCompras() throws ExecutionException, InterruptedException {
+        return compraService.obtenerCompras();
     }
 
     @Operation(summary = "Obtener una compra por su ID")
@@ -53,15 +53,15 @@ public class CompraController {
             @ApiResponse(responseCode = "404", description = "Compra no encontrada")
     })
     @GetMapping("/{id}")
-    public Compra get(@PathVariable String id) throws ExecutionException, InterruptedException {
-        return compraService.get(id);
+    public Compra obtenerIdCompra(@PathVariable String idCompra) throws ExecutionException, InterruptedException {
+        return compraService.obtenerIdCompra(idCompra);
     }
 
     @Operation(summary = "Eliminar una compra por ID")
     @ApiResponse(responseCode = "204", description = "Compra eliminada exitosamente")
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) throws ExecutionException, InterruptedException {
-        compraService.delete(id);
+    public String eliminarCompra(@PathVariable String idCompra) throws ExecutionException, InterruptedException {
+        compraService.eliminarCompra(idCompra);
         return "Compra eliminada correctamente.";
     }
 
@@ -72,7 +72,7 @@ public class CompraController {
     })
     @PostMapping("/generar-desde-boleta/{idBoleta}")
     public ResponseEntity<String> generarDesdeBoleta(@PathVariable String idBoleta) throws Exception {
-        Boleta boleta = boletaService.get(idBoleta);
+        Boleta boleta = boletaService.obtenerIdBoleta(idBoleta);
         if (boleta == null) return ResponseEntity.notFound().build();
 
         Compra compra = compraService.generarCompraDesdeBoleta(boleta);
@@ -86,15 +86,15 @@ public class CompraController {
     })
     @PutMapping("/{id}/metodo-pago")
     public ResponseEntity<String> actualizarMetodoPago(
-            @PathVariable String id,
+            @PathVariable String idCompra,
             @RequestParam String metodoPago) throws ExecutionException, InterruptedException {
 
-        Compra compra = compraService.get(id);
+        Compra compra = compraService.obtenerIdCompra(idCompra);
         if (compra == null) {
             return ResponseEntity.notFound().build();
         }
 
-        compraService.actualizarMetodoPago(id, metodoPago);
+        compraService.actualizarMetodoPago(idCompra, metodoPago);
         return ResponseEntity.ok("Método de pago actualizado correctamente.");
     }
 
@@ -105,12 +105,12 @@ public class CompraController {
             @ApiResponse(responseCode = "404", description = "Compra no encontrada")
     })
     @GetMapping("/{id}/comprobante")
-    public ResponseEntity<String> obtenerComprobante(@PathVariable String id) throws ExecutionException, InterruptedException {
-        Compra compra = compraService.get(id);
+    public ResponseEntity<String> obtenerComprobante(@PathVariable String idCompra) throws ExecutionException, InterruptedException {
+        Compra compra = compraService.obtenerIdCompra(idCompra);
         if (compra == null) {
             return ResponseEntity.notFound().build();
         }
-        String comprobante = compraService.obtenerComprobante(id);
+        String comprobante = compraService.obtenerComprobante(idCompra);
         return ResponseEntity.ok(comprobante);
     }
 

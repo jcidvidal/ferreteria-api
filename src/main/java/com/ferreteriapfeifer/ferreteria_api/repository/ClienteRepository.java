@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class ClienteRepository {
     private static final String COLLECTION_NAME = "cliente";
 
-    public void register(Cliente cliente) throws ExecutionException, InterruptedException {
+    public void registrarCliente(Cliente cliente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> future = db.collection(COLLECTION_NAME)
                 .document(cliente.getIdCliente())
@@ -28,9 +28,9 @@ public class ClienteRepository {
         future.get();
     }
 
-    public Cliente get(String id) throws ExecutionException, InterruptedException {
+    public Cliente obtenerIdCliente(String idCliente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        DocumentReference docRef = db.collection(COLLECTION_NAME).document(id);
+        DocumentReference docRef = db.collection(COLLECTION_NAME).document(idCliente);
         DocumentSnapshot snapshot = docRef.get().get();
 
         if (snapshot.exists()) {
@@ -41,7 +41,7 @@ public class ClienteRepository {
     }
 
 
-    public List<Cliente> getAll() throws ExecutionException, InterruptedException {
+    public List<Cliente> obtenerClientes() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -53,9 +53,9 @@ public class ClienteRepository {
         }
         return clientes;
     }
-    public void delete(String clientId) throws ExecutionException, InterruptedException {
+    public void eliminarCliente(String idCliente) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = db.collection(COLLECTION_NAME).document(clientId).delete();
+        ApiFuture<WriteResult> writeResult = db.collection(COLLECTION_NAME).document(idCliente).delete();
         writeResult.get();
 
     }

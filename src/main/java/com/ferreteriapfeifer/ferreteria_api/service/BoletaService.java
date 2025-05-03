@@ -17,27 +17,27 @@ public class BoletaService {
         this.boletaRepository = boletaRepository;
     }
 
-    public void register(Boleta boleta) throws ExecutionException, InterruptedException {
-        boletaRepository.register(boleta);
+    public void registrarBoleta(Boleta boleta) throws ExecutionException, InterruptedException {
+        boletaRepository.registrarBoleta(boleta);
     }
 
-    public Boleta get(String id) throws ExecutionException, InterruptedException {
-        return boletaRepository.get(id);
+    public Boleta obtenerIdBoleta(String idBoleta) throws ExecutionException, InterruptedException {
+        return boletaRepository.obtenerIdBoleta(idBoleta);
     }
 
-    public List<Boleta> getAll() throws ExecutionException, InterruptedException {
-        return boletaRepository.getAll();
+    public List<Boleta> obtenerBoletas() throws ExecutionException, InterruptedException {
+        return boletaRepository.obtenerBoletas();
     }
 
-    public void delete(String id) throws ExecutionException, InterruptedException {
-        boletaRepository.delete(id);
+    public void eliminarBoleta(String idBoleta) throws ExecutionException, InterruptedException {
+        boletaRepository.eliminarBoleta(idBoleta);
     }
 
     public void calcularTotal(String idBoleta) throws ExecutionException, InterruptedException {
-        Boleta boleta = boletaRepository.get(idBoleta);
+        Boleta boleta = boletaRepository.obtenerIdBoleta(idBoleta);
         if (boleta != null && boleta.getEstado().equalsIgnoreCase("abierta")) {
             boleta.calcularTotal(); // usa los detalles y subtotales
-            boletaRepository.register(boleta); // actualiza Firestore
+            boletaRepository.registrarBoleta(boleta); // actualiza Firestore
         } else {
             throw new IllegalStateException("No se puede calcular total: boleta cerrada o inexistente.");
         }
@@ -45,17 +45,17 @@ public class BoletaService {
 
 
     public void cerrarBoleta(String idBoleta) throws ExecutionException, InterruptedException {
-        Boleta boleta = boletaRepository.get(idBoleta);
+        Boleta boleta = boletaRepository.obtenerIdBoleta(idBoleta);
         if (boleta != null && boleta.getEstado().equalsIgnoreCase("abierta")) {
             boleta.cerrarBoleta();
-            boletaRepository.register(boleta); // Reescribe la boleta con estado cerrado
+            boletaRepository.registrarBoleta(boleta); // Reescribe la boleta con estado cerrado
         } else {
             throw new IllegalStateException("No se puede cerrar: boleta ya está cerrada o no existe.");
         }
     }
 
     public void agregarDetalle(String idBoleta, DetalleProducto detalle) throws ExecutionException, InterruptedException {
-        Boleta boleta = boletaRepository.get(idBoleta);
+        Boleta boleta = boletaRepository.obtenerIdBoleta(idBoleta);
         if (boleta == null) {
             throw new IllegalArgumentException("Boleta no encontrada.");
         }
@@ -73,7 +73,7 @@ public class BoletaService {
         boleta.calcularTotal();
 
         // Guardar los cambios
-        boletaRepository.register(boleta);
+        boletaRepository.registrarBoleta(boleta);
     }
 
 }

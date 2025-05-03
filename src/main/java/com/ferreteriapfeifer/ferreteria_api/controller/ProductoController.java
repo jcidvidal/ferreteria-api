@@ -32,17 +32,17 @@ public class ProductoController {
     @Operation(summary = "Registrar nuevo producto")
     @ApiResponse(responseCode = "201", description = "Producto registrado correctamente")
     @PostMapping
-    public String register(@Valid @RequestBody Producto producto) throws ExecutionException, InterruptedException {
+    public String registrarProducto(@Valid @RequestBody Producto producto) throws ExecutionException, InterruptedException {
         producto.setIdProducto(UUID.randomUUID().toString());
-        productoService.register(producto);
+        productoService.registrarProducto(producto);
         return "Producto registrado.";
     }
 
     @Operation(summary = "Obtener todos los productos")
     @ApiResponse(responseCode = "200", description = "Lista de productos obtenida")
     @GetMapping
-    public List<Producto> getAll() throws ExecutionException, InterruptedException {
-        return productoService.getAll();
+    public List<Producto> obtenerProductos() throws ExecutionException, InterruptedException {
+        return productoService.obtenerProductos();
     }
 
     @Operation(summary = "Obtener producto por ID")
@@ -51,15 +51,15 @@ public class ProductoController {
             @ApiResponse(responseCode = "404", description = "Producto no encontrado")
     })
     @GetMapping("/{id}")
-    public Producto get(@PathVariable String id) throws ExecutionException, InterruptedException {
-        return productoService.get(id);
+    public Producto obtenerIdProducto(@PathVariable String id) throws ExecutionException, InterruptedException {
+        return productoService.obtenerIdProducto(id);
     }
 
     @Operation(summary = "Eliminar producto por ID")
     @ApiResponse(responseCode = "204", description = "Producto eliminado correctamente")
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) throws ExecutionException, InterruptedException {
-        productoService.delete(id);
+    public String eliminarProducto(@PathVariable String id) throws ExecutionException, InterruptedException {
+        productoService.eliminarProducto(id);
         return "Producto eliminado.";
     }
 
@@ -74,8 +74,8 @@ public class ProductoController {
             @RequestParam String idProducto,
             @RequestParam int cantidad) throws Exception {
 
-        Persona usuario = adminService.get(idAdmin);
-        Producto producto = productoService.get(idProducto);
+        Persona usuario = adminService.obtenerIdAdmin(idAdmin);
+        Producto producto = productoService.obtenerIdProducto(idProducto);
 
         adminService.modificarStockSiEsAdmin(usuario, producto, cantidad);
         return "Stock modificado.";

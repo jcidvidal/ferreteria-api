@@ -17,21 +17,21 @@ public class ClienteService {
         this.clienteRepository = clienteRepository;
     }
 
-    public void register(Cliente cliente) throws ExecutionException, InterruptedException {
+    public void registrarCliente(Cliente cliente) throws ExecutionException, InterruptedException {
         cliente.setIdCliente(UUID.randomUUID().toString());
-        clienteRepository.register(cliente);
+        clienteRepository.registrarCliente(cliente);
     }
 
-    public Cliente get(String clientId) throws ExecutionException, InterruptedException {
-        return clienteRepository.get(clientId);
+    public Cliente obtenerIdCliente(String idCliente) throws ExecutionException, InterruptedException {
+        return clienteRepository.obtenerIdCliente(idCliente);
     }
 
-    public List<Cliente> getAll() throws ExecutionException, InterruptedException {
-        return clienteRepository.getAll();
+    public List<Cliente> obtenerClientes() throws ExecutionException, InterruptedException {
+        return clienteRepository.obtenerClientes();
     }
 
-    public void delete(String clientId) throws ExecutionException, InterruptedException {
-        clienteRepository.delete(clientId);
+    public void eliminarCliente(String idCliente) throws ExecutionException, InterruptedException {
+        clienteRepository.eliminarCliente(idCliente);
     }
 
 }

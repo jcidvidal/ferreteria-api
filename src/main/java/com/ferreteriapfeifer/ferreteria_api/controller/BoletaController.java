@@ -29,18 +29,18 @@ public class BoletaController {
     @Operation(summary = "Registrar una nueva boleta")
     @ApiResponse(responseCode = "201", description = "Boleta registrada correctamente")
     @PostMapping
-    public String register(@Valid @RequestBody Boleta boleta) throws ExecutionException, InterruptedException {
+    public String registrarBoleta(@Valid @RequestBody Boleta boleta) throws ExecutionException, InterruptedException {
         boleta.setIdBoleta(UUID.randomUUID().toString());
         boleta.setEstado("abierta");
-        boletaService.register(boleta);
+        boletaService.registrarBoleta(boleta);
         return "Boleta registrada.";
     }
 
     @Operation(summary = "Obtener todas las boletas")
     @ApiResponse(responseCode = "200", description = "Lista de boletas obtenida")
     @GetMapping
-    public List<Boleta> getAll() throws ExecutionException, InterruptedException {
-        return boletaService.getAll();
+    public List<Boleta> obtenerBoletas() throws ExecutionException, InterruptedException {
+        return boletaService.obtenerBoletas();
     }
 
     @Operation(summary = "Obtener boleta por ID")
@@ -49,29 +49,29 @@ public class BoletaController {
             @ApiResponse(responseCode = "404", description = "Boleta no encontrada")
     })
     @GetMapping("/{id}")
-    public Boleta get(@PathVariable String id) throws ExecutionException, InterruptedException {
-        return boletaService.get(id);
+    public Boleta obtenerIdBoleta(@PathVariable String id) throws ExecutionException, InterruptedException {
+        return boletaService.obtenerIdBoleta(id);
     }
 
     @Operation(summary = "Eliminar boleta por ID")
     @ApiResponse(responseCode = "204", description = "Boleta eliminada correctamente")
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) throws ExecutionException, InterruptedException {
-        boletaService.delete(id);
+    public String eliminarBoleta(@PathVariable String id) throws ExecutionException, InterruptedException {
+        boletaService.eliminarBoleta(id);
         return "Boleta eliminada.";
     }
 
     @Operation(summary = "Calcular total de una boleta")
     @PutMapping("/{id}/calcular-total")
-    public String calcularTotal(@PathVariable String id) throws ExecutionException, InterruptedException {
-        boletaService.calcularTotal(id);
+    public String calcularTotal(@PathVariable String idBoleta) throws ExecutionException, InterruptedException {
+        boletaService.calcularTotal(idBoleta);
         return "Total recalculado correctamente.";
     }
 
     @Operation(summary = "Cerrar una boleta")
     @PutMapping("/{id}/cerrar")
-    public String cerrarBoleta(@PathVariable String id) throws ExecutionException, InterruptedException {
-        boletaService.cerrarBoleta(id);
+    public String cerrarBoleta(@PathVariable String idBoleta) throws ExecutionException, InterruptedException {
+        boletaService.cerrarBoleta(idBoleta);
         return "Boleta cerrada correctamente.";
     }
 

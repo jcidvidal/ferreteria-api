@@ -16,7 +16,7 @@ public class AdminRepository  {
 
     private static final String COLLECTION_NAME = "admin";
 
-    public void register(Admin admin) throws ExecutionException, InterruptedException {
+    public void registrarAdmin(Admin admin) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> future = db.collection(COLLECTION_NAME)
                 .document(admin.getIdAdmin())
@@ -24,9 +24,9 @@ public class AdminRepository  {
         future.get();
     }
 
-    public Admin get(String id) throws ExecutionException, InterruptedException {
+    public Admin obtenerIdAdmin(String idAdmin) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        DocumentReference docRef = db.collection(COLLECTION_NAME).document(id);
+        DocumentReference docRef = db.collection(COLLECTION_NAME).document(idAdmin);
         DocumentSnapshot snapshot = docRef.get().get();
 
         if (snapshot.exists()) {
@@ -36,7 +36,7 @@ public class AdminRepository  {
         }
     }
 
-    public List<Admin> getAll() throws ExecutionException, InterruptedException {
+    public List<Admin> obtenerAdmins() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -48,9 +48,9 @@ public class AdminRepository  {
         }
         return admins;
     }
-    public void delete(String adminId) throws ExecutionException, InterruptedException {
+    public void eliminarAdmin(String idAdmin) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = db.collection(COLLECTION_NAME).document(adminId).delete();
+        ApiFuture<WriteResult> writeResult = db.collection(COLLECTION_NAME).document(idAdmin).delete();
         writeResult.get();
 
     }

@@ -17,7 +17,7 @@ public class ProductoRepository {
 
     private static final String COLLECTION_NAME = "producto";
 
-    public void register(Producto producto) throws ExecutionException, InterruptedException {
+    public void registrarProducto(Producto producto) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> future = db.collection(COLLECTION_NAME)
                 .document(producto.getIdProducto())
@@ -25,7 +25,7 @@ public class ProductoRepository {
         future.get();
     }
 
-    public Producto get(String id) throws ExecutionException, InterruptedException {
+    public Producto obtenerIdProducto(String id) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docRef = db.collection(COLLECTION_NAME).document(id);
         DocumentSnapshot snapshot = docRef.get().get();
@@ -33,7 +33,7 @@ public class ProductoRepository {
         return snapshot.exists() ? snapshot.toObject(Producto.class) : null;
     }
 
-    public List<Producto> getAll() throws ExecutionException, InterruptedException {
+    public List<Producto> obtenerProductos() throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> future = db.collection(COLLECTION_NAME).get();
         List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -45,7 +45,7 @@ public class ProductoRepository {
         return productos;
     }
 
-    public void delete(String idProducto) throws ExecutionException, InterruptedException {
+    public void eliminarProducto(String idProducto) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> future = db.collection(COLLECTION_NAME).document(idProducto).delete();
         future.get();

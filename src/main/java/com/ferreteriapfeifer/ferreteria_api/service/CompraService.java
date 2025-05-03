@@ -19,20 +19,20 @@ public class CompraService {
         this.compraRepository = compraRepository;
     }
 
-    public void register(Compra compra) throws ExecutionException, InterruptedException {
-        compraRepository.register(compra);
+    public void registrarCompra(Compra compra) throws ExecutionException, InterruptedException {
+        compraRepository.registrarCompra(compra);
     }
 
-    public Compra get(String idCompra) throws ExecutionException, InterruptedException {
-        return compraRepository.get(idCompra);
+    public Compra obtenerIdCompra(String idCompra) throws ExecutionException, InterruptedException {
+        return compraRepository.obtenerIdCompra(idCompra);
     }
 
-    public List<Compra> getAll() throws ExecutionException, InterruptedException {
-        return compraRepository.getAll();
+    public List<Compra> obtenerCompras() throws ExecutionException, InterruptedException {
+        return compraRepository.obtenerCompras();
     }
 
-    public void delete(String idCompra) throws ExecutionException, InterruptedException {
-        compraRepository.delete(idCompra);
+    public void eliminarCompra(String idCompra) throws ExecutionException, InterruptedException {
+        compraRepository.eliminarCompra(idCompra);
     }
 
     public Compra generarCompraDesdeBoleta(Boleta boleta) throws ExecutionException, InterruptedException {
@@ -47,22 +47,22 @@ public class CompraService {
         compra.setMetodoPago("pendiente"); // Puedes dejarlo dinámico luego
         compra.setMontoPagado(boleta.getTotal());
 
-        compraRepository.register(compra);
+        compraRepository.registrarCompra(compra);
         return compra;
     }
 
     public void actualizarMetodoPago(String idCompra, String metodoPago) throws ExecutionException, InterruptedException {
-        Compra compra = compraRepository.get(idCompra);
+        Compra compra = compraRepository.obtenerIdCompra(idCompra);
         if (compra == null) {
             throw new IllegalArgumentException("Compra no encontrada.");
         }
 
         compra.setMetodoPago(metodoPago);
-        compraRepository.register(compra); // Reescribe la compra con el nuevo método de pago
+        compraRepository.registrarCompra(compra); // Reescribe la compra con el nuevo método de pago
     }
 
     public String obtenerComprobante(String idCompra) throws ExecutionException, InterruptedException {
-        Compra compra = compraRepository.get(idCompra);
+        Compra compra = compraRepository.obtenerIdCompra(idCompra);
         if (compra == null) {
             throw new IllegalArgumentException("Compra no encontrada.");
         }

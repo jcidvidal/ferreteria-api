@@ -30,16 +30,16 @@ public class AdminController {
     @Operation(summary = "Registrar un administrador")
     @ApiResponse(responseCode = "201", description = "Administrador registrado correctamente")
     @PostMapping
-    public String register(@Valid @RequestBody Admin admin) throws ExecutionException, InterruptedException {
-        adminService.register(admin);
+    public String registrarAdmin(@Valid @RequestBody Admin admin) throws ExecutionException, InterruptedException {
+        adminService.registrarAdmin(admin);
         return "Admin registrado.";
     }
 
     @Operation(summary = "Listar todos los administradores")
     @ApiResponse(responseCode = "200", description = "Lista de administradores obtenida con éxito")
     @GetMapping
-    public List<Admin> getAll() throws ExecutionException, InterruptedException {
-        List<Admin> admins = adminService.getAll();
+    public List<Admin> obtenerAdmins() throws ExecutionException, InterruptedException {
+        List<Admin> admins = adminService.obtenerAdmins();
         return admins;
     }
 
@@ -49,8 +49,8 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "Admin no encontrado")
     })
     @GetMapping("/{id}")
-    public Admin get(@PathVariable String id) throws ExecutionException, InterruptedException {
-        Admin admin = adminService.get(id);
+    public Admin obtenerIdAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
+        Admin admin = adminService.obtenerIdAdmin(idAdmin);
         return admin;
     }
 
@@ -60,8 +60,8 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "Administrador no encontrado")
     })
     @DeleteMapping("/{id}")
-    public String delete(@PathVariable String id) throws ExecutionException, InterruptedException {
-        adminService.delete(id);
+    public String eliminarAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
+        adminService.eliminarAdmin(idAdmin);
         return "Admin eliminado.";
     }
 
@@ -71,8 +71,8 @@ public class AdminController {
             @RequestParam String idProducto,
             @RequestParam int cantidad) throws Exception {
 
-        Persona usuario = adminService.get(idAdmin);
-        Producto producto = productoService.get(idProducto);
+        Persona usuario = adminService.obtenerIdAdmin(idAdmin);
+        Producto producto = productoService.obtenerIdProducto(idProducto);
 
         adminService.modificarStockSiEsAdmin(usuario, producto, cantidad);
         return "Stock modificado";
