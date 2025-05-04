@@ -5,6 +5,7 @@ import com.ferreteriapfeifer.ferreteria_api.model.Persona;
 import com.ferreteriapfeifer.ferreteria_api.model.Producto;
 import com.ferreteriapfeifer.ferreteria_api.service.AdminService;
 import com.ferreteriapfeifer.ferreteria_api.service.ProductoService;
+import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -13,6 +14,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -30,7 +32,10 @@ public class AdminController {
     @Operation(summary = "Registrar un administrador")
     @ApiResponse(responseCode = "201", description = "Administrador registrado correctamente")
     @PostMapping
-    public String registrarAdmin(@Valid @RequestBody Admin admin) throws ExecutionException, InterruptedException {
+    public String registrarAdmin(@Valid @RequestBody Admin admin, PasswordUtil passwordUtil) throws ExecutionException, InterruptedException {
+        Admin.setIdAdmin(UUID.randomUUID().toString());
+        //TODO: Hashear contraseña
+        admin.setContrasena(passwordUtil.encode(admin.getContrasena()));
         adminService.registrarAdmin(admin);
         return "Admin registrado.";
     }
@@ -77,5 +82,7 @@ public class AdminController {
         adminService.modificarStockSiEsAdmin(usuario, producto, cantidad);
         return "Stock modificado";
     }
+
+
 
 }

@@ -1,6 +1,7 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
 
+import com.ferreteriapfeifer.ferreteria_api.annotations.SoloAdmin;
 import com.ferreteriapfeifer.ferreteria_api.model.Persona;
 import com.ferreteriapfeifer.ferreteria_api.model.Producto;
 import com.ferreteriapfeifer.ferreteria_api.service.AdminService;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -79,5 +81,12 @@ public class ProductoController {
 
         adminService.modificarStockSiEsAdmin(usuario, producto, cantidad);
         return "Stock modificado.";
+    }
+
+    @SoloAdmin
+    @PostMapping("/modificar-stock")
+    public ResponseEntity<String> modificarStock(@RequestBody Producto producto) {
+        // Lógica para modificar el stock
+        return ResponseEntity.ok("Stock modificado correctamente");
     }
 }

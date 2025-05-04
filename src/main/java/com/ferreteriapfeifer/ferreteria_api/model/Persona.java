@@ -27,4 +27,9 @@ public abstract class Persona {
     @NotNull
     @Schema(description = "Contraseña del usuario (mínimo 6 caracteres)", example = "segura123")
     private String contrasena;
+
+    @NotNull
+    @Schema(description = "Rol del usuario", example = "ADMIN")
+    private String rol;
 }
+

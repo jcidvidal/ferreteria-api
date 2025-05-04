@@ -1,8 +1,11 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
+import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDto;
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.service.ClienteService;
+import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,27 +22,34 @@ import java.util.concurrent.ExecutionException;
 
 public class ClienteController {
     private final ClienteService clienteService;
+    private final PasswordUtil passwordUtil;
 
-    public ClienteController(ClienteService clienteService) {
+    public ClienteController(ClienteService clienteService, PasswordUtil passwordUtil) {
         this.clienteService = clienteService;
+        this.passwordUtil = passwordUtil;
     }
 
     @Operation(summary = "Registrar un cliente")
     @ApiResponse(responseCode = "201", description = "Cliente registrado correctamente")
+
     @PostMapping
-    public String registrarCliente(@Valid @RequestBody Cliente cliente) throws ExecutionException, InterruptedException {
+    public ResponseEntity<String> registrarCliente(@Valid @RequestBody Cliente cliente) throws ExecutionException, InterruptedException {
         cliente.setIdCliente(UUID.randomUUID().toString());
-        //TODO: Hashear contraseña
+        cliente.setContrasena(passwordUtil.encode(cliente.getContrasena()));
         clienteService.registrarCliente(cliente);
-        return "Cliente registrado.";
+        return ResponseEntity.status(201).body("Cliente registrado.");
     }
 
     @Operation(summary = "Listar todos los clientes")
     @ApiResponse(responseCode = "200", description = "Lista de clientes obtenida con éxito")
+
+
     @GetMapping
-    public List<Cliente> obtenerClientes() throws ExecutionException, InterruptedException {
-        List<Cliente> clientes = clienteService.obtenerClientes();
-        return clientes;
+    public ResponseEntity<List<ClienteDto>> obtenerClientesDto() throws ExecutionException, InterruptedException {
+        List<ClienteDto> clientes = clienteService.obtenerClientes().stream()
+                .map(clienteService::toDTO)
+                .toList();
+        return ResponseEntity.ok(clientes);
     }
 
     @Operation(summary = "Buscar cliente por ID")
@@ -47,8 +57,9 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", description = "Cliente encontrado"),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
+
     @GetMapping("/{id}")
-    public Cliente obtenerIdCliente(@PathVariable String idCliente) throws ExecutionException, InterruptedException {
+    public Cliente obtenerIdCliente(@PathVariable("id") String idCliente) throws ExecutionException, InterruptedException {
         Cliente cliente = clienteService.obtenerIdCliente(idCliente);
         return cliente;
     }
@@ -58,11 +69,14 @@ public class ClienteController {
             @ApiResponse(responseCode = "204", description = "Cliente eliminado"),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
+
+
+
+
+
     @DeleteMapping("/{id}")
-    public String eliminarCliente(@PathVariable String idCliente) throws ExecutionException, InterruptedException {
+    public ResponseEntity<Void> eliminarCliente(@PathVariable("id") String idCliente) throws ExecutionException, InterruptedException {
         clienteService.eliminarCliente(idCliente);
-        return "Cliente eliminado.";
+        return ResponseEntity.noContent().build();
     }
-
-
 }
