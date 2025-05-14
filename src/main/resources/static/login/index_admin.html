@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ferretería Pfeifer - Login</title>
+    <link rel="stylesheet" href="styles_admin.css">
+</head>
+<body class="bg-blue">
+<div class="logo-container">
+    <img src="logo.png" alt="Logo Ferretería Pfeifer" class="logo">
+</div>
+
+<img src="martillo.png" class="martillo" alt="Martillo">
+<img src="destornillador.png" class="destornillador" alt="Destornillador y llave">
+
+<div class="form-container">
+    <img src="casco.png" class="casco" alt="Casco de construcción">
+    <h1>FERRETERIA<br>PFEIFER</h1>
+    <p class="google-text">Regístrate con Google</p>
+    <form method="POST" action="/api/login">
+        <input type="text" placeholder="Email address" name="email" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <button type="submit">Inscribirse</button>
+    </form>
+    <p class="login-link">¿Ya tienes una cuenta? <a href="#">Iniciar sesión</a></p>
+</div>
+</body>
+</html>

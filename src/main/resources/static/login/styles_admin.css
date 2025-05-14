@@ -1,0 +1,77 @@
+body.bg-blue {
+  margin: 0;
+  font-family: sans-serif;
+  background-color: #3537b0;
+  height: 100vh;
+  position: relative;
+}
+
+.logo-container {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+}
+
+.logo {
+  height: 80px;
+}
+
+.martillo {
+  position: absolute;
+  left: 100px;
+  bottom: 100px;
+  height: 200px;
+}
+
+.destornillador {
+  position: absolute;
+  right: 100px;
+  bottom: 80px;
+  height: 200px;
+}
+
+.form-container {
+  background: white;
+  max-width: 300px;
+  margin: 100px auto;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid black;
+}
+
+.form-container h1 {
+  margin: 10px 0;
+  font-size: 24px;
+}
+
+.casco {
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.google-text {
+  font-size: 0.85rem;
+  color: #333;
+}
+
+input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #aaa;
+}
+
+button {
+  background-color: #ff5100;
+  color: white;
+  border: none;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-link {
+  font-size: 0.75rem;
+  margin-top: 10px;
+}
