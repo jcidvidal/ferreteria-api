@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuenta - Ferretería Pfeifer</title>
+    <link rel="stylesheet" href="styles_usuario.css">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo-link">
+            <img src="https://placehold.co/170x50/F7A233/2c3e50?text=FERRETERIA+PFEIFER&font=roboto" alt="Ferretería Pfeifer Logo" class="logo">
+        </a>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index_herramientas.html">Herramientas</a></li>
+                <li><a href="index_seguridad.html">Seguridad</a></li>
+                <li><a href="index_plomeria.html">Plomería</a></li>
+                <li><a href="index_electricidad.html">Electricidad</a></li>
+                <li><a href="index_jardin.html">Jardín</a></li>
+                <li><a href="index_contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+             <a href="index_seguridad.html" aria-label="Mi Cuenta">👤</a>
+             <a href="index_carrito.html" aria-label="Carrito de compras">🛒</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Mi Cuenta</h1>
+
+        <section class="account-section">
+            <h2>Información Personal</h2>
+            <form id="userInfoForm">
+                <div class="user-details-grid">
+                    <div class="detail-group">
+                        <label for="nombre">Nombres:</label>
+                        <input type="text" id="nombre" name="nombre" value="Juan Andrés" disabled>
+                    </div>
+                    <div class="detail-group">
+                        <label for="apellidos">Apellidos:</label>
+                        <input type="text" id="apellidos" name="apellidos" value="Pérez González" disabled>
+                    </div>
+                    <div class="detail-group">
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" value="juan.perez@example.com" disabled>
+                    </div>
+                    <div class="detail-group">
+                        <label for="telefono">Teléfono:</label>
+                        <input type="tel" id="telefono" name="telefono" value="+56 9 1234 5678" disabled>
+                    </div>
+                    <div class="detail-group">
+                        <label for="direccion">Dirección de Envío Principal:</label>
+                        <input type="text" id="direccion" name="direccion" value="Calle Ficticia 123, Depto 4B, Santiago" disabled>
+                    </div>
+                     <div class="detail-group">
+                        <label for="rut">RUT/DNI:</label>
+                        <input type="text" id="rut" name="rut" value="12.345.678-9" disabled>
+                    </div>
+                </div>
+            </form>
+
+            <div class="account-actions">
+                <button type="button" id="btnEditInfo" class="btn-primary btn-edit">Editar Información</button>
+                <button type="submit" id="btnSaveInfo" form="userInfoForm" class="btn-success btn-save">Guardar Cambios</button>
+                <button type="button" id="btnCancelEdit" class="btn-secondary btn-cancel">Cancelar</button>
+                <button type="button" id="btnOrderHistory" class="btn-secondary btn-orders">Historial de Pedidos</button>
+                </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© <span id="currentYear"></span> Ferretería Pfeifer. Todos los derechos reservados.</p>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook" title="Facebook">f</a>
+            <a href="#" aria-label="Instagram" title="Instagram">i</a>
+            <a href="#" aria-label="WhatsApp" title="WhatsApp">w</a>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Lógica básica para habilitar/deshabilitar edición
+        const formInputs = document.querySelectorAll('#userInfoForm input');
+        const btnEditInfo = document.getElementById('btnEditInfo');
+        const btnSaveInfo = document.getElementById('btnSaveInfo');
+        const btnCancelEdit = document.getElementById('btnCancelEdit');
+
+        let originalValues = {};
+
+        if(btnEditInfo) {
+            btnEditInfo.addEventListener('click', () => {
+                originalValues = {}; // Limpiar valores anteriores
+                formInputs.forEach(input => {
+                    input.disabled = false;
+                    originalValues[input.id] = input.value; // Guardar valores originales
+                });
+                btnEditInfo.style.display = 'none';
+                btnSaveInfo.style.display = 'inline-block';
+                btnCancelEdit.style.display = 'inline-block';
+            });
+        }
+
+        if(btnCancelEdit) {
+            btnCancelEdit.addEventListener('click', () => {
+                formInputs.forEach(input => {
+                    input.disabled = true;
+                    input.value = originalValues[input.id] || input.value; // Restaurar valores originales
+                });
+                btnEditInfo.style.display = 'inline-block';
+                btnSaveInfo.style.display = 'none';
+                btnCancelEdit.style.display = 'none';
+            });
+        }
+        
+        // Simulación de guardado (en una app real, aquí iría la llamada a la API)
+        const userInfoForm = document.getElementById('userInfoForm');
+        if(userInfoForm) {
+            userInfoForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevenir envío real del formulario
+                // Aquí iría la lógica para enviar los datos al backend
+                alert('Información guardada (simulación).');
+                formInputs.forEach(input => input.disabled = true);
+                btnEditInfo.style.display = 'inline-block';
+                btnSaveInfo.style.display = 'none';
+                btnCancelEdit.style.display = 'none';
+            });
+        }
+
+        // Placeholder para historial de pedidos
+        const btnOrderHistory = document.getElementById('btnOrderHistory');
+        if(btnOrderHistory) {
+            btnOrderHistory.addEventListener('click', () => {
+                alert('Funcionalidad de Historial de Pedidos aún no implementada.');
+                // Aquí podrías redirigir a otra página: window.location.href = 'historial-pedidos.html';
+            });
+        }
+
+    </script>
+</body>
+</html>
