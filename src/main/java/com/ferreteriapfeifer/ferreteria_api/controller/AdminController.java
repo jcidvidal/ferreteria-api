@@ -5,7 +5,6 @@ import com.ferreteriapfeifer.ferreteria_api.model.Persona;
 import com.ferreteriapfeifer.ferreteria_api.model.Producto;
 import com.ferreteriapfeifer.ferreteria_api.service.AdminService;
 import com.ferreteriapfeifer.ferreteria_api.service.ProductoService;
-import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,13 +13,13 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping("/api/admin")
 @Tag(name = "Admin Controller", description = "Operaciones CRUD para administradores del sistema")
 public class AdminController {
+
     private final AdminService adminService;
     private final ProductoService productoService;
 
@@ -32,10 +31,7 @@ public class AdminController {
     @Operation(summary = "Registrar un administrador")
     @ApiResponse(responseCode = "201", description = "Administrador registrado correctamente")
     @PostMapping
-    public String registrarAdmin(@Valid @RequestBody Admin admin, PasswordUtil passwordUtil) throws ExecutionException, InterruptedException {
-        Admin.setIdAdmin(UUID.randomUUID().toString());
-        //TODO: Hashear contraseña
-        admin.setContrasena(passwordUtil.encode(admin.getContrasena()));
+    public String registrarAdmin(@Valid @RequestBody Admin admin) throws ExecutionException, InterruptedException {
         adminService.registrarAdmin(admin);
         return "Admin registrado.";
     }
@@ -44,8 +40,7 @@ public class AdminController {
     @ApiResponse(responseCode = "200", description = "Lista de administradores obtenida con éxito")
     @GetMapping
     public List<Admin> obtenerAdmins() throws ExecutionException, InterruptedException {
-        List<Admin> admins = adminService.obtenerAdmins();
-        return admins;
+        return adminService.obtenerAdmins();
     }
 
     @Operation(summary = "Buscar administrador por ID")
@@ -55,8 +50,7 @@ public class AdminController {
     })
     @GetMapping("/{id}")
     public Admin obtenerIdAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
-        Admin admin = adminService.obtenerIdAdmin(idAdmin);
-        return admin;
+        return adminService.obtenerIdAdmin(idAdmin);
     }
 
     @Operation(summary = "Eliminar administrador por ID")
@@ -82,7 +76,4 @@ public class AdminController {
         adminService.modificarStockSiEsAdmin(usuario, producto, cantidad);
         return "Stock modificado";
     }
-
-
-
 }

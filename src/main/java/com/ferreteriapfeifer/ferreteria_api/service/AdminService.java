@@ -3,11 +3,9 @@ package com.ferreteriapfeifer.ferreteria_api.service;
 
 import com.ferreteriapfeifer.ferreteria_api.dto.AdminDto;
 import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDto;
-import com.ferreteriapfeifer.ferreteria_api.model.Admin;
-import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
-import com.ferreteriapfeifer.ferreteria_api.model.Persona;
-import com.ferreteriapfeifer.ferreteria_api.model.Producto;
+import com.ferreteriapfeifer.ferreteria_api.model.*;
 import com.ferreteriapfeifer.ferreteria_api.repository.AdminRepository;
+import com.ferreteriapfeifer.ferreteria_api.util.JwtUtil;
 import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,9 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
 
     public AdminService(AdminRepository adminRepository) {
         this.adminRepository = adminRepository;
@@ -32,7 +33,11 @@ public class AdminService {
 
     public void registrarAdmin(Admin admin) throws ExecutionException, InterruptedException {
         admin.setIdAdmin(UUID.randomUUID().toString());
+        if (existePorEmail(admin.getEmail())) {
+            throw new IllegalArgumentException("❌ Ya existe un admin registrado con este correo: " + admin.getEmail());
+        }
         admin.setContrasena(passwordUtil.encode(admin.getContrasena()));
+        admin.setRol("ADMIN");
         adminRepository.registrarAdmin(admin);
     }
 
@@ -69,4 +74,9 @@ public class AdminService {
     public boolean existePorEmail(String email) throws ExecutionException, InterruptedException {
         return obtenerAdmins().stream().anyMatch(admin -> admin.getEmail().equalsIgnoreCase(email));
     }
+
+
+
+
+
 }

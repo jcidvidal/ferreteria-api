@@ -25,7 +25,12 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(
+                                "/api/auth/**",
+                                "/api/login/**",        // ⬅️ esta línea es clave
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
+                        ).permitAll()
                         .requestMatchers("/api/admin/modificar-stock").hasAuthority("ADMIN")
                         .requestMatchers("/api/compra/**").authenticated()
                         .anyRequest().permitAll()

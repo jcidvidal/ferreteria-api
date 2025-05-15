@@ -24,7 +24,8 @@ public abstract class Persona {
     @Pattern(regexp = "\\+\\d{11}", message = "El teléfono debe tener formato +56912345678")
     @Schema(description = "Teléfono en formato internacional", example = "+56912345678")
     private String telefono;
-    @NotNull
+
+
     @Schema(description = "Contraseña del usuario (mínimo 6 caracteres)", example = "segura123")
     private String contrasena;
 

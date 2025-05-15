@@ -1,37 +1,86 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
 
+import com.ferreteriapfeifer.ferreteria_api.model.Admin;
+import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
+import com.ferreteriapfeifer.ferreteria_api.model.Persona;
+import com.ferreteriapfeifer.ferreteria_api.service.AdminService;
+import com.ferreteriapfeifer.ferreteria_api.service.ClienteService;
 import com.ferreteriapfeifer.ferreteria_api.util.JwtUtil;
-import io.jsonwebtoken.Claims;
+import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+
 @RestController
 @RequestMapping("/api/auth")
+@Tag(name = "Autenticación", description = "Login y generación de token JWT.")
 public class AuthController {
 
+    private final AdminService adminService;
+    private final ClienteService clienteService;
+    private final PasswordUtil passwordUtil;
     private final JwtUtil jwtUtil;
 
-    public AuthController(JwtUtil jwtUtil) {
+    public AuthController(AdminService adminService, ClienteService clienteService,
+                          PasswordUtil passwordUtil, JwtUtil jwtUtil) {
+        this.adminService = adminService;
+        this.clienteService = clienteService;
+        this.passwordUtil = passwordUtil;
         this.jwtUtil = jwtUtil;
     }
 
-    @GetMapping("/verificar")
-    public ResponseEntity<?> verificarToken(@RequestHeader("Authorization") String authHeader) {
-        try {
-            if (!authHeader.startsWith("Bearer ")) {
-                return ResponseEntity.badRequest().body("Token inválido (falta Bearer)");
-            }
+    @Operation(summary = "Autenticar usuario y devolver JWT")
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) throws ExecutionException, InterruptedException {
+        Optional<? extends Persona> usuarioOptional = buscarUsuarioPorEmail(request.getEmail());
 
-            String token = authHeader.replace("Bearer ", "");
-            Claims claims = jwtUtil.getClaims(token);
-
-            String email = claims.getSubject();
-            String rol = claims.get("rol", String.class);
-
-            return ResponseEntity.ok("Token válido. Email: " + email + ", Rol: " + rol);
-        } catch (Exception e) {
-            return ResponseEntity.status(401).body("Token inválido o expirado.");
+        if (usuarioOptional.isEmpty()) {
+            return ResponseEntity.status(401).body("Usuario no encontrado.");
         }
+
+        Persona persona = usuarioOptional.get();
+        if (!passwordUtil.matches(request.getContrasena(), persona.getContrasena())) {
+            return ResponseEntity.status(401).body("Contraseña incorrecta.");
+        }
+
+        String token = jwtUtil.generateToken(persona.getRol(), persona);
+        return ResponseEntity.ok(new TokenResponse(token));
+    }
+
+    private Optional<? extends Persona> buscarUsuarioPorEmail(String email) throws ExecutionException, InterruptedException {
+        for (Admin admin : adminService.obtenerAdmins()) {
+            if (admin.getEmail().equalsIgnoreCase(email)) {
+                return Optional.of(admin);
+            }
+        }
+        for (Cliente cliente : clienteService.obtenerClientes()) {
+            if (cliente.getEmail().equalsIgnoreCase(email)) {
+                return Optional.of(cliente);
+            }
+        }
+        return Optional.empty();
+    }
+
+    @Data
+    public static class LoginRequest {
+        @Email
+        private String email;
+
+        @NotBlank
+        private String contrasena;
+    }
+
+    @Data
+    public static class TokenResponse {
+        private final String token;
     }
 }

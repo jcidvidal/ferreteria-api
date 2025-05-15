@@ -5,14 +5,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PasswordUtil {
-    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public String encode(String rawPassword) {
-        return encoder.encode(rawPassword);
+        return passwordEncoder.encode(rawPassword);
     }
 
     public boolean matches(String rawPassword, String hashedPassword) {
-        return encoder.matches(rawPassword, hashedPassword);
+        return passwordEncoder.matches(rawPassword, hashedPassword);
     }
 }
