@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plomería - Ferretería Pfeifer</title>
+    <link rel="stylesheet" href="styles_plomeria.css">
+    <style>
+        /* Estilos para asegurar el centrado del subtítulo de la sección de productos */
+        .products-section > h3 {
+            text-align: center; /* Asegura que el h3 dentro de products-section esté centrado */
+            width: 100%; /* Ocupa todo el ancho para un centrado efectivo */
+        }
+
+        /* Estilos para la lista horizontal de productos con scroll */
+        .products-grid-horizontal {
+            display: flex; /* Permite que los items se coloquen en línea */
+            flex-wrap: nowrap; /* Evita que los items salten a la siguiente línea */
+            overflow-x: auto; /* Habilita el scroll horizontal si los items exceden el ancho */
+            padding-top: 10px; /* Espacio arriba de los productos */
+            padding-bottom: 25px; /* Espacio para el scrollbar y evitar que se pegue al footer */
+            margin-left: -20px; /* Compensa el padding del primer item si es necesario */
+            margin-right: -20px; /* Compensa el padding del último item si es necesario */
+        }
+
+        .products-grid-horizontal .product-item {
+            flex: 0 0 auto; /* Evita que los items se encojan o crezcan, manteniendo su tamaño base */
+            width: 260px; /* Ancho fijo para cada tarjeta de producto en la lista horizontal */
+            margin-left: 20px; /* Espacio a la izquierda de cada producto */
+            margin-right: 0; /* Sin margen derecho adicional, el espacio lo da el siguiente item */
+        }
+        
+        .products-grid-horizontal .product-item:last-child {
+             margin-right: 20px; /* Añade margen derecho al último elemento para que no se corte con el borde del contenedor */
+        }
+
+        /* Ajustes para el contenedor principal si se usa scroll horizontal */
+        .container {
+            overflow-x: hidden; /* Previene el scroll horizontal en el contenedor principal debido al padding negativo */
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo-link">
+            <img src="https://placehold.co/170x50/F7A233/2c3e50?text=FERRETERIA+PFEIFER&font=roboto" alt="Ferretería Pfeifer Logo" class="logo">
+        </a>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="index_herramientas.html">Herramientas</a></li>
+                <li><a href="index_seguridad.html">Seguridad</a></li>
+                <li><a href="index_plomeria.html" class="active">Plomería</a></li> 
+                <li><a href="index_electricidad.html">Electricidad</a></li>
+                <li><a href="index_jardin.html">Jardín</a></li>
+                <li><a href="index_contacto.html">Contacto</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+             <a href="#" aria-label="Cuenta de usuario">👤</a>
+             <a href="#" aria-label="Carrito de compras">🛒</a>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Artículos de Plomería</h1>
+
+        <section class="products-section">
+            <h3>Nuestro Catálogo de Artículos de Plomería</h3>
+            <div class="products-grid-horizontal">
+                <div class="product-item">
+                    <div class="product-item-image-container">
+                        <img src="https://placehold.co/200x150/E0E0E0/555555?text=Llave+Paso&font=roboto" alt="Llave de Paso Esférica">
+                    </div>
+                    <h4 class="product-name">Llave de Paso Esférica 1/2" Bronce</h4>
+                    <p class="product-price">$8.490</p>
+                    <div class="product-item-buttons">
+                        <a href="detalle-producto.html?id=plomeria001" class="btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-item-image-container">
+                        <img src="https://placehold.co/200x150/E0E0E0/555555?text=Tubo+PVC&font=roboto" alt="Tubería de PVC Sanitaria">
+                    </div>
+                    <h4 class="product-name">Tubo PVC Sanitario 110mm x 3m</h4>
+                    <p class="product-price">$12.300</p>
+                    <div class="product-item-buttons">
+                        <a href="detalle-producto.html?id=plomeria002" class="btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-item-image-container">
+                         <img src="https://placehold.co/200x150/E0E0E0/555555?text=Codo+PVC&font=roboto" alt="Codo PVC 90 Grados">
+                    </div>
+                    <h4 class="product-name">Codo PVC Presión 90° 25mm</h4>
+                    <p class="product-price">$990</p>
+                    <div class="product-item-buttons">
+                        <a href="detalle-producto.html?id=plomeria003" class="btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-item-image-container">
+                        <img src="https://placehold.co/200x150/E0E0E0/555555?text=Sifon&font=roboto" alt="Sifón para Lavaplatos">
+                    </div>
+                    <h4 class="product-name">Sifón Flexible Universal para Lavaplatos</h4>
+                    <p class="product-price">$5.750</p>
+                    <div class="product-item-buttons">
+                        <a href="detalle-producto.html?id=plomeria004" class="btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+                
+                <div class="product-item">
+                    <div class="product-item-image-container">
+                        <img src="https://placehold.co/200x150/E0E0E0/555555?text=Griferia&font=roboto" alt="Grifería Monomando para Cocina">
+                    </div>
+                    <h4 class="product-name">Grifería Monomando Cocina Cuello Alto Cromada</h4>
+                    <p class="product-price">$35.990</p>
+                    <div class="product-item-buttons">
+                        <a href="detalle-producto.html?id=plomeria005" class="btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+
+                <div class="product-item">
+                    <div class="product-item-image-container">
+                        <img src="https://placehold.co/200x150/E0E0E0/555555?text=Teflon&font=roboto" alt="Cinta de Teflón Selladora">
+                    </div>
+                    <h4 class="product-name">Cinta Teflón Selladora Alta Densidad 1/2" x 10m</h4>
+                    <p class="product-price">$1.200</p>
+                    <div class="product-item-buttons">
+                        <a href="detalle-producto.html?id=plomeria006" class="btn-secondary">Ver Detalles</a>
+                    </div>
+                </div>
+                </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>© <span id="currentYear"></span> Ferretería Pfeifer. Todos los derechos reservados.</p>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook" title="Facebook">f</a>
+            <a href="#" aria-label="Instagram" title="Instagram">i</a>
+            <a href="#" aria-label="WhatsApp" title="WhatsApp">w</a>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
