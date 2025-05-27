@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import './Contacto.css';
+import { db } from './firebaseConfig';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 function Contacto() {
   const [form, setForm] = useState({
@@ -14,10 +16,20 @@ function Contacto() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
-    // Cambia estos datos por los tuyos de EmailJS
+    // 1. Guarda en Firestore
+    try {
+      await addDoc(collection(db, "contactos"), {
+        ...form,
+        fecha: serverTimestamp()
+      });
+    } catch (err) {
+      alert("No se pudo guardar en Firebase: " + err.message);
+    }
+
+    // 2. Envía correo por EmailJS
     const serviceID = 'service_bod1imp';
     const templateID = 'template_avev5dh';
     const userID = 'MlS0bJzthvcwBfQi5';

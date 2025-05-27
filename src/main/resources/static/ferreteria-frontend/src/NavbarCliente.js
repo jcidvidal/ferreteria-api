@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./NavbarCliente.css"; // crea este CSS para estilos personalizados
 
+
 function NavbarCliente() {
   return (
     <header className="navbar-cliente">
@@ -21,8 +22,8 @@ function NavbarCliente() {
           </ul>
         </nav>
         <div className="icons">
-          <Link to="/perfil"><span role="img" aria-label="user">👤</span></Link>
-          <Link to="/carrito"><span role="img" aria-label="cart">🛒</span></Link>
+          <Link to="/Usuario"><span role="img" aria-label="user">👤</span></Link>
+          <Link to="/Carrito"><span role="img" aria-label="cart">🛒</span></Link>
         </div>
       </div>
       <div className="linea-naranja"></div>

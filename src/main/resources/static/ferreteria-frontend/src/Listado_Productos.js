@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { collection, getDocs } from "firebase/firestore";
-import { db } from './firebaseConfig'; // Ajusta la ruta si tu archivo está en otro lado
+import { db } from './firebaseConfig';
+import { CartContext } from './CartContext';
 import './GridProductos.css';
 
 function Listado_Productos() {
@@ -8,13 +9,13 @@ function Listado_Productos() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const { agregarProducto } = useContext(CartContext);
+
   useEffect(() => {
-    // Nombre de la colección en Firestore: "productos"
     getDocs(collection(db, "productos"))
       .then((querySnapshot) => {
         const lista = [];
         querySnapshot.forEach((doc) => {
-          // .data() obtiene los campos, .id el id único
           lista.push({ id: doc.id, ...doc.data() });
         });
         setProductos(lista);
@@ -43,7 +44,9 @@ function Listado_Productos() {
               <span className="precio">${prod.precio?.toLocaleString() ?? "—"}</span>
               <span className="stock">Stock: {prod.stock}</span>
             </div>
-            <button className="btn-comprar">Agregar al carrito</button>
+            <button className="btn-comprar" onClick={() => agregarProducto(prod)}>
+              Agregar al carrito
+            </button>
           </div>
         ))
       )}
@@ -52,3 +55,4 @@ function Listado_Productos() {
 }
 
 export default Listado_Productos;
+
