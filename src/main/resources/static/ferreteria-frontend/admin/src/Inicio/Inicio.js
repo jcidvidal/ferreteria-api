@@ -1,13 +1,23 @@
-import React from 'react';
-import styles from './Inicio.module.css';
+import React from "react";
+import "./Inicio.css";
 
 const Inicio = () => {
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>Bienvenido al Panel de Administración</h1>
-      <p className={styles.subtitle}>Desde aquí puedes gestionar los módulos del sistema</p>
+    <div className="inicio-container">
+      <div className="inicio-bienvenida">
+        <h1>Bienvenido al Sistema de Gestion de Ferreteria</h1>
+        <p>Administra tus productos, clientes, ventas y más desde un solo lugar.</p>
+        <div className="inicio-botones">
+          <button onClick={() => window.location.href = "/stock"}>Ver Stock</button>
+          <button onClick={() => window.location.href = "/clientes"}>Clientes</button>
+          <button onClick={() => window.location.href = "/ventas"}>Ventas</button>
+          <button onClick={() => window.location.href = "/reclamos"}>Reclamos</button>
+        </div>
+      </div>
     </div>
   );
 };
 
 export default Inicio;
+
+
