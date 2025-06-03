@@ -1,16 +1,17 @@
 import React from "react";
-import "./ReclamosSugerencias.css";
+import "./Reclamos.css";
+import { Link } from "react-router-dom";
 
 const ReclamosSugerencias = () => {
   return (
     <div className="reclamos-container">
       <nav className="navbar">
-        <div className="logo">Ferretería</div>
+      <Link to="/"><div className="logo">Ferretería</div></Link>  
         <div className="menu">
-          <button>Stock</button>
-          <button>Clientes</button>
-          <button className="active">Reclamos/Sugerencias</button>
-          <button>Ventas</button>
+        <Link to="/Stock" > <button>Stock</button>  </Link>  
+        <Link to="/Clientes" > <button>Clientes</button> </Link>  
+        <Link to="/Reclamos" > <button className="active">ReclamosSugerencias</button> </Link>  
+        <Link to="/Ventas"><button>Ventas</button> </Link>  
         </div>
       </nav>
 
