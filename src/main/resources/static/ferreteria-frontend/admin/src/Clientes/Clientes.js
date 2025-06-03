@@ -1,16 +1,17 @@
 import React from "react";
 import "./Clientes.css";
+import { Link } from "react-router-dom";
 
 const Clientes = () => {
   return (
     <div className="clientes-container">
       <nav className="navbar">
-        <div className="logo">Ferretería</div>
+      <Link to="/" ><div className="logo">Ferretería</div> </Link>  
         <div className="menu">
-          <button>Stock</button>
-          <button className="active">Clientes</button>
-          <button>Reclamos/Sugerencias</button>
-          <button>Ventas</button>
+        <Link to="/Stock"><button>Stock</button> </Link>  
+        <Link to="/Clientes"><button className="active">Clientes</button> </Link>  
+        <Link to="/Reclamos"><button>Reclamos/Sugerencias</button></Link> 
+        <Link to="/Ventas"><button>Ventas</button></Link>  
         </div>
       </nav>
 
