@@ -1,16 +1,18 @@
 import React from "react";
 import "./Ventas.css";
+import { Link } from "react-router-dom";
+
 
 const Ventas = () => {
   return (
     <div className="ventas-container">
       <nav className="navbar">
-        <div className="logo">Ferretería</div>
+      <Link to ="/"><div className="logo">Ferretería</div></Link>  
         <div className="menu">
-          <button>Stock</button>
-          <button>Clientes</button>
-          <button>Reclamos/Sugerencias</button>
-          <button className="active">Ventas</button>
+        <Link to ="/Stock">  <button>Stock</button></Link> 
+         <Link to="/Clientes" style={{ margin: 8 }}><button>Clientes</button></Link> 
+         <Link to="/Reclamos" style={{ margin: 8 }}><button>Reclamos y Sugerencias</button></Link> 
+          <Link to="/Ventas" style={{ margin: 8 }}><button className="active">Ventas</button></Link>
         </div>
       </nav>
 
