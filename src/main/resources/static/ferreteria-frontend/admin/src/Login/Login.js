@@ -34,27 +34,32 @@ const Login = () => {
   return (
     <div className="login-container">
       <form className="login-form" onSubmit={handleLogin}>
-        <h2>FERRETERIA PFEIFER</h2>
+        <h2>FERRETERÍA PFEIFER</h2>
+
         <button type="button" className="google-btn" onClick={handleGoogleLogin}>
-          Regístrate con Google
+          Iniciar sesión con Google
         </button>
+
         <input
           type="email"
-          placeholder="Email address"
+          placeholder="Correo electrónico"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit" className="login-btn">Inscribirse</button>
+
+        <button type="submit" className="login-btn">Iniciar sesión</button>
+
         <p>
-          ¿Ya tienes una cuenta? <a href="/Inicio">Iniciar sesión</a>
+          ¿No tienes una cuenta? <a href="#">Contacta al administrador</a>
         </p>
       </form>
     </div>
