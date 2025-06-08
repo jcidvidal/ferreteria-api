@@ -30,6 +30,9 @@ public class Compra implements GeneradorComprobante {
     private String metodoPago;
 
     @NotNull
+    private String estadoPago;
+
+    @NotNull
     @Schema(description = "Monto total pagado", example = "34990")
     private int montoPagado;
 

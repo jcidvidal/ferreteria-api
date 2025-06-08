@@ -29,6 +29,9 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
 
             String externalReference = "ferre-pref-" + UUID.randomUUID();
 
+            String idCompra = request.getIdCompra(); // Debe venir del frontend o backend previamente creado
+             externalReference = idCompra; // clave para el Webhook
+
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(List.of(item))

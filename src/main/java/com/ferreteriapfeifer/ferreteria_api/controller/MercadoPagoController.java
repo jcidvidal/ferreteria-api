@@ -2,8 +2,10 @@ package com.ferreteriapfeifer.ferreteria_api.controller;
 
 import com.ferreteriapfeifer.ferreteria_api.dto.PaymentNotificationDTO;
 import com.ferreteriapfeifer.ferreteria_api.dto.PreferenceRequestDTO;
+import com.ferreteriapfeifer.ferreteria_api.model.Compra;
 import com.ferreteriapfeifer.ferreteria_api.model.Pago;
 import com.ferreteriapfeifer.ferreteria_api.repository.PagoRepository;
+import com.ferreteriapfeifer.ferreteria_api.service.CompraService;
 import com.ferreteriapfeifer.ferreteria_api.service.MercadoPagoService;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.resources.payment.Payment;
@@ -21,12 +23,14 @@ import java.util.Map;
 public class MercadoPagoController {
 
     private final MercadoPagoService mercadoPagoService;
+    private final CompraService compraService;
     private final PagoRepository pagoRepository;
 
     public MercadoPagoController(MercadoPagoService mercadoPagoService,
-                                 PagoRepository pagoRepository) {
+                                 PagoRepository pagoRepository, CompraService compraService) {
         this.mercadoPagoService = mercadoPagoService;
         this.pagoRepository = pagoRepository;
+        this.compraService = compraService;
     }
 
 
@@ -74,6 +78,7 @@ public class MercadoPagoController {
             PaymentClient client = new PaymentClient();
             Payment payment = client.get(paymentId);
 
+            // 1. Guardar el objeto Pago (como ya haces)
             Pago pago = new Pago(
                     payment.getId(),
                     payment.getStatus(),
@@ -82,9 +87,21 @@ public class MercadoPagoController {
                     payment.getPaymentTypeId(),
                     payment.getPaymentMethodId()
             );
-
             pagoRepository.guardarPago(pago);
             System.out.println("Estado del pago guardado en Firestore: " + pago.getStatus());
+
+            // 2. 🔥 Nueva lógica: actualizar estado de la Compra
+            String idCompra = payment.getExternalReference();
+            Compra compra = compraService.obtenerIdCompra(idCompra);
+
+            if (compra != null) {
+                String nuevoEstado = payment.getStatus(); // "approved", "rejected", etc.
+                compra.setEstadoPago(nuevoEstado);
+                compraService.registrarCompra(compra); // o actualizarCompra si lo tienes separado
+                System.out.println("Estado de la compra actualizado a: " + nuevoEstado);
+            } else {
+                System.out.println("⚠ No se encontró una compra con ID: " + idCompra);
+            }
 
             return ResponseEntity.ok("Pago procesado correctamente");
 

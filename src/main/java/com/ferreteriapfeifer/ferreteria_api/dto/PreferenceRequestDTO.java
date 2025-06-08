@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PreferenceRequestDTO {
+    private String idCompra;
     private String nombreProducto;
     private Integer cantidad;
     private Float precioUnitario;
+
 }

@@ -22,4 +22,9 @@ public class WebConfig {
             }
         };
     }
+    /**
+     * Configuración global de CORS para permitir que el frontend (React en localhost:3000)
+     * pueda comunicarse con el backend (Spring Boot en localhost:8080)
+     */
+
 }
