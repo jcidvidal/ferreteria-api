@@ -1,5 +1,6 @@
 package com.ferreteriapfeifer.ferreteria_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.google.firebase.database.annotations.NotNull;
 import jakarta.validation.constraints.Email;
@@ -25,7 +26,7 @@ public abstract class Persona {
     @Schema(description = "Teléfono en formato internacional", example = "+56912345678")
     private String telefono;
 
-
+    @JsonIgnore
     @Schema(description = "Contraseña del usuario (mínimo 6 caracteres)", example = "segura123")
     private String contrasena;
 

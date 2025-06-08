@@ -5,12 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class AdminDto {
-
-    private String idAdmin;
-    private String nombre;
-    private String email;
-    private String telefono;
+@AllArgsConstructor
+public class PreferenceRequestDTO {
+    private String nombreProducto;
+    private Integer cantidad;
+    private Float precioUnitario;
 }

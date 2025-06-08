@@ -1,7 +1,7 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
+import com.ferreteriapfeifer.ferreteria_api.dto.DetalleRequestDTO;
 import com.ferreteriapfeifer.ferreteria_api.model.Boleta;
-import com.ferreteriapfeifer.ferreteria_api.model.DetalleProducto;
 import com.ferreteriapfeifer.ferreteria_api.service.BoletaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -83,15 +83,16 @@ public class BoletaController {
     @PutMapping("/{id}/agregar-detalle")
     public ResponseEntity<String> agregarDetalle(
             @PathVariable String id,
-            @RequestBody DetalleProducto detalle) throws ExecutionException, InterruptedException {
+            @Valid @RequestBody DetalleRequestDTO requestDTO) {
         try {
-            boletaService.agregarDetalle(id, detalle);
+            boletaService.agregarDetalle(id, requestDTO.getIdProducto(), requestDTO.getCantidad());
             return ResponseEntity.ok("Detalle agregado a la boleta correctamente.");
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(404).body(e.getMessage());
         } catch (IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error inesperado: " + e.getMessage());
         }
     }
-
 }

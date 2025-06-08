@@ -9,6 +9,8 @@ import com.ferreteriapfeifer.ferreteria_api.service.ClienteService;
 import com.ferreteriapfeifer.ferreteria_api.util.JwtUtil;
 import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -38,7 +40,16 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    @Operation(summary = "Autenticar usuario y devolver JWT")
+
+
+    @Operation(
+            summary = "Login de usuario (Admin o Cliente)",
+            description = "Permite autenticarse con email y contraseña. Retorna un JWT si las credenciales son válidas."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Login exitoso, token generado"),
+            @ApiResponse(responseCode = "401", description = "Credenciales incorrectas o usuario no encontrado")
+    })
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) throws ExecutionException, InterruptedException {
         Optional<? extends Persona> usuarioOptional = buscarUsuarioPorEmail(request.getEmail());

@@ -1,9 +1,8 @@
 package com.ferreteriapfeifer.ferreteria_api.service;
 
-import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDto;
+import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDTO;
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.repository.ClienteRepository;
-import com.ferreteriapfeifer.ferreteria_api.util.JwtUtil;
 import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +28,7 @@ public class ClienteService {
 
     public void registrarCliente(Cliente cliente) throws ExecutionException, InterruptedException {
         if (existePorEmail(cliente.getEmail())) {
-            throw new IllegalArgumentException("❌ Ya existe un cliente registrado con este correo: " + cliente.getEmail());
+            throw new IllegalArgumentException("Ya existe un cliente registrado con este correo: " + cliente.getEmail());
         }
         cliente.setIdCliente(UUID.randomUUID().toString());
         cliente.setContrasena(passwordUtil.encode(cliente.getContrasena()));
@@ -44,7 +43,7 @@ public class ClienteService {
     public List<Cliente> obtenerClientes() throws ExecutionException, InterruptedException {
         List<Cliente> clientes = clienteRepository.obtenerClientes();
         for (Cliente cliente : clientes) {
-            System.out.println("📌 Cliente cargado:");
+            System.out.println("Cliente cargado:");
             System.out.println("- Email: " + cliente.getEmail());
             System.out.println("- Contraseña: " + cliente.getContrasena());
         }
@@ -55,8 +54,8 @@ public class ClienteService {
         clienteRepository.eliminarCliente(idCliente);
     }
 
-    public ClienteDto toDTO(Cliente cliente) {
-        ClienteDto dto = new ClienteDto();
+    public ClienteDTO toDTO(Cliente cliente) {
+        ClienteDTO dto = new ClienteDTO();
         dto.setIdCliente(cliente.getIdCliente());
         dto.setNombre(cliente.getNombre());
         dto.setEmail(cliente.getEmail());
@@ -80,7 +79,7 @@ public class ClienteService {
         for (Cliente cliente : todos) {
             Cliente clienteUnico = unicosPorEmail.get(cliente.getEmail().toLowerCase());
             if (!cliente.getIdCliente().equals(clienteUnico.getIdCliente())) {
-                System.out.println("🧹 Eliminando duplicado: " + cliente.getEmail() + " → " + cliente.getIdCliente());
+                System.out.println("Eliminando duplicado: " + cliente.getEmail() + " → " + cliente.getIdCliente());
                 eliminarCliente(cliente.getIdCliente());
             }
         }

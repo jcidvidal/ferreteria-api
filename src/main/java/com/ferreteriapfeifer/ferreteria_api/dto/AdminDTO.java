@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ClienteDto {
+public class AdminDTO {
 
-    private String idCliente;
+    private String idAdmin;
     private String nombre;
     private String email;
     private String telefono;
-
 }

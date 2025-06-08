@@ -27,12 +27,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/api/login/**",        // ⬅️ esta línea es clave
+                                "/api/login/**",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**"
                         ).permitAll()
                         .requestMatchers("/api/admin/modificar-stock").hasAuthority("ADMIN")
-                        .requestMatchers("/api/compra/**").authenticated()
+                        .requestMatchers("/api/compra/**").hasAnyAuthority("CLIENTE", "ADMIN")
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);

@@ -1,6 +1,5 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
-import com.ferreteriapfeifer.ferreteria_api.annotations.SoloCliente;
 import com.ferreteriapfeifer.ferreteria_api.model.Boleta;
 import com.ferreteriapfeifer.ferreteria_api.model.Compra;
 import com.ferreteriapfeifer.ferreteria_api.service.BoletaService;
@@ -115,10 +114,5 @@ public class CompraController {
         return ResponseEntity.ok(comprobante);
     }
 
-    @SoloCliente
-    @PostMapping("/realizar")
-    public ResponseEntity<String> realizarCompra(@RequestBody Compra compra) {
-        // Lógica para procesar la compra
-        return ResponseEntity.ok("Compra realizada correctamente");
-    }
+
 }

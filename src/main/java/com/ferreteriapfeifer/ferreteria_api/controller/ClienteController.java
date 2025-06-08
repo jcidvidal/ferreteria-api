@@ -1,11 +1,11 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
-import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDto;
+import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDTO;
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.service.ClienteService;
-import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,11 +34,22 @@ public class ClienteController {
         return ResponseEntity.status(201).body("Cliente registrado.");
     }
 
+
+
+
+    @Operation(summary = "Verificar acceso exclusivo de cliente")
+    @ApiResponse(responseCode = "200", description = "Acceso validado para CLIENTE")
+    @PreAuthorize("hasAuthority('CLIENTE')")
+    @GetMapping("/solo-cliente")
+    public ResponseEntity<String> testSoloCliente() {
+        return ResponseEntity.ok("✅ Solo un cliente autenticado puede ver esto.");
+    }
+
     @Operation(summary = "Listar todos los clientes")
     @ApiResponse(responseCode = "200", description = "Lista de clientes obtenida con éxito")
     @GetMapping
-    public ResponseEntity<List<ClienteDto>> obtenerClientesDto() throws ExecutionException, InterruptedException {
-        List<ClienteDto> clientes = clienteService.obtenerClientes().stream()
+    public ResponseEntity<List<ClienteDTO>> obtenerClientesDto() throws ExecutionException, InterruptedException {
+        List<ClienteDTO> clientes = clienteService.obtenerClientes().stream()
                 .map(clienteService::toDTO)
                 .toList();
         return ResponseEntity.ok(clientes);
@@ -50,8 +61,12 @@ public class ClienteController {
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
     @GetMapping("/{id}")
-    public Cliente obtenerIdCliente(@PathVariable("id") String idCliente) throws ExecutionException, InterruptedException {
-        return clienteService.obtenerIdCliente(idCliente);
+    public ResponseEntity<ClienteDTO> obtenerIdCliente(@PathVariable("id") String idCliente) throws ExecutionException, InterruptedException {
+        Cliente cliente = clienteService.obtenerIdCliente(idCliente);
+        if (cliente == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(clienteService.toDTO(cliente));
     }
 
     @Operation(summary = "Eliminar cliente por ID")
@@ -65,8 +80,12 @@ public class ClienteController {
         return ResponseEntity.noContent().build();
     }
 
+
+
+    @Operation(summary = "Eliminar clientes duplicados por email")
+    @ApiResponse(responseCode = "200", description = "Duplicados eliminados exitosamente")
     @GetMapping("/depurar-duplicados")
-    public ResponseEntity<String> depurarDuplicados() throws ExecutionException, InterruptedException {
+    public ResponseEntity<String> clienteDuplicados() throws ExecutionException, InterruptedException {
         clienteService.eliminarClientesDuplicados();
         return ResponseEntity.ok("Clientes duplicados eliminados.");
     }

@@ -1,5 +1,6 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
+import com.ferreteriapfeifer.ferreteria_api.dto.AdminDTO;
 import com.ferreteriapfeifer.ferreteria_api.model.Admin;
 import com.ferreteriapfeifer.ferreteria_api.model.Persona;
 import com.ferreteriapfeifer.ferreteria_api.model.Producto;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,11 +39,22 @@ public class AdminController {
         return "Admin registrado.";
     }
 
+
+    @Operation(summary = "Verificar acceso exclusivo de administrador")
+    @ApiResponse(responseCode = "200", description = "Acceso validado para ADMIN")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @GetMapping("/solo-admin")
+    public ResponseEntity<String> testSoloAdmin() {
+        return ResponseEntity.ok("Solo un admin autenticado puede ver esto.");
+    }
+
     @Operation(summary = "Listar todos los administradores")
     @ApiResponse(responseCode = "200", description = "Lista de administradores obtenida con éxito")
     @GetMapping
-    public List<Admin> obtenerAdmins() throws ExecutionException, InterruptedException {
-        return adminService.obtenerAdmins();
+    public List<AdminDTO> obtenerAdmins() throws ExecutionException, InterruptedException {
+        return adminService.obtenerAdmins().stream()
+                .map(adminService::toDTO)
+                .toList();
     }
 
     @Operation(summary = "Buscar administrador por ID")
@@ -49,9 +63,14 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "Admin no encontrado")
     })
     @GetMapping("/{id}")
-    public Admin obtenerIdAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
-        return adminService.obtenerIdAdmin(idAdmin);
+    public ResponseEntity<AdminDTO> obtenerIdAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
+        Admin admin = adminService.obtenerIdAdmin(idAdmin);
+        if (admin == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(adminService.toDTO(admin));
     }
+
 
     @Operation(summary = "Eliminar administrador por ID")
     @ApiResponses({
@@ -64,6 +83,10 @@ public class AdminController {
         return "Admin eliminado.";
     }
 
+
+
+    @Operation(summary = "Modificar stock de un producto (requiere rol ADMIN)")
+    @ApiResponse(responseCode = "200", description = "Stock modificado exitosamente")
     @PutMapping("/modificar-stock")
     public String modificarStock(
             @RequestParam String idAdmin,

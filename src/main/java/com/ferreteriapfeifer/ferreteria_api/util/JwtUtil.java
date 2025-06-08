@@ -53,4 +53,8 @@ public class JwtUtil {
             return false;
         }
     }
+
+    public String extractRol(String token) {
+        return getClaims(token).get("rol", String.class);
+    }
 }

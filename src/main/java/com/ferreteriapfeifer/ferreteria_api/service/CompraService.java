@@ -44,7 +44,7 @@ public class CompraService {
         compra.setIdCompra(UUID.randomUUID().toString());
         compra.setFechaPago(LocalDateTime.now());
         compra.setCliente(boleta.getCliente());
-        compra.setMetodoPago("pendiente"); // Puedes dejarlo dinámico luego
+        compra.setMetodoPago("pendiente");
         compra.setMontoPagado(boleta.getTotal());
 
         compraRepository.registrarCompra(compra);
@@ -58,7 +58,7 @@ public class CompraService {
         }
 
         compra.setMetodoPago(metodoPago);
-        compraRepository.registrarCompra(compra); // Reescribe la compra con el nuevo método de pago
+        compraRepository.registrarCompra(compra);
     }
 
     public String obtenerComprobante(String idCompra) throws ExecutionException, InterruptedException {

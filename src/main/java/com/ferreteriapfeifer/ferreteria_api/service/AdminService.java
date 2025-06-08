@@ -1,8 +1,7 @@
 package com.ferreteriapfeifer.ferreteria_api.service;
 
 
-import com.ferreteriapfeifer.ferreteria_api.dto.AdminDto;
-import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDto;
+import com.ferreteriapfeifer.ferreteria_api.dto.AdminDTO;
 import com.ferreteriapfeifer.ferreteria_api.model.*;
 import com.ferreteriapfeifer.ferreteria_api.repository.AdminRepository;
 import com.ferreteriapfeifer.ferreteria_api.util.JwtUtil;
@@ -28,13 +27,19 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    @Autowired
+
     private PasswordUtil passwordUtil;
+
+    @Autowired
+    public AdminService(AdminRepository adminRepository, PasswordUtil passwordUtil) {
+        this.adminRepository = adminRepository;
+        this.passwordUtil = passwordUtil;
+    }
 
     public void registrarAdmin(Admin admin) throws ExecutionException, InterruptedException {
         admin.setIdAdmin(UUID.randomUUID().toString());
         if (existePorEmail(admin.getEmail())) {
-            throw new IllegalArgumentException("❌ Ya existe un admin registrado con este correo: " + admin.getEmail());
+            throw new IllegalArgumentException(" Ya existe un admin registrado con este correo: " + admin.getEmail());
         }
         admin.setContrasena(passwordUtil.encode(admin.getContrasena()));
         admin.setRol("ADMIN");
@@ -62,8 +67,8 @@ public class AdminService {
         }
     }
 
-    public AdminDto toDTO(Admin admin) {
-        AdminDto dto = new AdminDto();
+    public AdminDTO toDTO(Admin admin) {
+        AdminDTO dto = new AdminDTO();
         dto.setIdAdmin(admin.getIdAdmin());
         dto.setNombre(admin.getNombre());
         dto.setEmail(admin.getEmail());
