@@ -2,7 +2,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// Reemplaza con tus credenciales reales de Firebase
 const firebaseConfig = {
   apiKey: "TU_API_KEY",
   authDomain: "TU_AUTH_DOMAIN",
@@ -12,10 +11,8 @@ const firebaseConfig = {
   appId: "TU_APP_ID"
 };
 
-// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
 
-// Exporta auth para usar en tus componentes
 export const auth = getAuth(app);
 export default app;
 
