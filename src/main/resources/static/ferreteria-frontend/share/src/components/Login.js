@@ -14,13 +14,12 @@ const Login = () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Obtener el token de Firebase (lo puedes enviar al backend si necesitas)
+      // Obtener el token de Firebase para usarlo en back-end
       const token = await user.getIdToken();
 
-      // Opcional: puedes guardar el token en localStorage para usarlo en el backend
       localStorage.setItem("token", token);
 
-      // OPCIÓN 1: Redirigir por correo si es simple
+      //redirige por correo
       if (email === "admin@tudominio.com") {
         window.location.href = "/admin";
         localStorage.setItem("role", "admin");
@@ -29,7 +28,7 @@ const Login = () => {
         localStorage.setItem("role", "cliente");
       }
 
-      // OPCIÓN 2: Si quieres roles avanzados, usa Firestore para guardar info extra del usuario (te ayudo si lo necesitas)
+      //verifica en la base de datos
     } catch (err) {
       setError("Usuario o contraseña incorrecta");
     }
