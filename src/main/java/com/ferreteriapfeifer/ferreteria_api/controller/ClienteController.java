@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/cliente")
 @Tag(name = "Cliente Controller", description = "Operaciones CRUD relacionadas con los clientes")

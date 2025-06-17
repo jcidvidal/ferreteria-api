@@ -6,7 +6,7 @@ import axios from "axios";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("cliente"); // o "admin" según opción
+  const [role, setRole] = useState("cliente");  
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -22,8 +22,8 @@ const Register = () => {
 
       // 2. Registrar en el back-end (Spring Boot)
       await axios.post(
-        "http://localhost:8080/api/register", // tu endpoint
-        { email, role }, // puedes agregar más campos si quieres
+        "http://localhost:8080/api/register", 
+        { email, role }, 
         { headers: { Authorization: `Bearer ${token}` } }
       );
 

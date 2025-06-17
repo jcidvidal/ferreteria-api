@@ -1,34 +1,30 @@
-// src/components/Login.js
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({ onRegisterClick }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-
-      // Obtener el token de Firebase para usarlo en back-end
       const token = await user.getIdToken();
-
       localStorage.setItem("token", token);
 
-      //redirige por correo
+      // Redirección por correo
       if (email === "admin@tudominio.com") {
-        window.location.href = "/admin";
+        window.location.href = "/Admin";
         localStorage.setItem("role", "admin");
       } else {
-        window.location.href = "/cliente";
+        window.location.href = "cliente/App.js";
         localStorage.setItem("role", "cliente");
       }
-
-      //verifica en la base de datos
     } catch (err) {
       setError("Usuario o contraseña incorrecta");
     }
@@ -53,6 +49,14 @@ const Login = () => {
         required
       />
       <button type="submit">Entrar</button>
+      <p>
+        ¿No tienes cuenta?{""}
+        <button
+          type="button"
+          onClick={() => navigate("/Register")} >
+        Registrarse
+        </button>
+      </p>
     </form>
   );
 };
