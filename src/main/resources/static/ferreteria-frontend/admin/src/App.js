@@ -5,6 +5,8 @@ import Clientes from './Clientes/Clientes.js';
 import Ventas from './Ventas/Ventas.js';
 import Stock from './Stock/Stock.js';
 import ReclamosSugerencias from './ReclamosSugerencias/ReclamosSugerencias.js';
+import DetallesCliente from './detalles-cliente/detalles-cliente';
+import DetallesStock from './detalles-stock/detalles-stock';
 
 function App() {
   return (
@@ -19,8 +21,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Inicio />} />
         <Route path="/clientes" element={<Clientes />} />
+        <Route path="/clientes/:id" element={<DetallesCliente />} />
         <Route path="/ventas" element={<Ventas />} />
         <Route path="/stock" element={<Stock />} />
+        <Route path="/stock/:id" element={<DetallesStock />} />
         <Route path="/reclamos" element={<ReclamosSugerencias />} />
       </Routes>
     </Router>
@@ -28,3 +32,4 @@ function App() {
 }
 
 export default App;
+
