@@ -1,4 +1,4 @@
-impoimport React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
     import axios from "axios";
     import "./Ventas.css";
     import { Link } from "react-router-dom";
