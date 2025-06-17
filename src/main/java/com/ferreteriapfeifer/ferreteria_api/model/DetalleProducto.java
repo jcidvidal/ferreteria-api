@@ -22,9 +22,7 @@ public class DetalleProducto {
     @Schema(description = "Subtotal calculado (precio * cantidad)", example = "14970")
     private int subtotal;
 
-    /**
-     * Calcula el subtotal en base al precio del producto y la cantidad.
-     */
+
     public void calcularSubtotal() {
         this.subtotal = producto.getPrecio() * cantidad;
     }

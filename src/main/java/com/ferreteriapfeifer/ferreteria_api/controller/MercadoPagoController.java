@@ -24,12 +24,10 @@ public class MercadoPagoController {
 
     private final MercadoPagoService mercadoPagoService;
     private final CompraService compraService;
-    private final PagoRepository pagoRepository;
 
-    public MercadoPagoController(MercadoPagoService mercadoPagoService,
-                                 PagoRepository pagoRepository, CompraService compraService) {
+
+    public MercadoPagoController(MercadoPagoService mercadoPagoService,CompraService compraService) {
         this.mercadoPagoService = mercadoPagoService;
-        this.pagoRepository = pagoRepository;
         this.compraService = compraService;
     }
 
@@ -59,6 +57,7 @@ public class MercadoPagoController {
             description = "Recibe notificaciones automáticas de pagos. No requiere token. Solo procesa topic = 'payment'."
     )
     @ApiResponse(responseCode = "200", description = "Webhook procesado correctamente")
+
     @PostMapping("/webhook")
     public ResponseEntity<String> recibirWebhook(@RequestBody PaymentNotificationDTO notificacion) {
         Long paymentId = notificacion.getId();
@@ -75,41 +74,13 @@ public class MercadoPagoController {
         }
 
         try {
-            PaymentClient client = new PaymentClient();
-            Payment payment = client.get(paymentId);
-
-            // 1. Guardar el objeto Pago (como ya haces)
-            Pago pago = new Pago(
-                    payment.getId(),
-                    payment.getStatus(),
-                    payment.getExternalReference(),
-                    payment.getExternalReference(),
-                    payment.getPaymentTypeId(),
-                    payment.getPaymentMethodId()
-            );
-            pagoRepository.guardarPago(pago);
-            System.out.println("Estado del pago guardado en Firestore: " + pago.getStatus());
-
-            // 2. 🔥 Nueva lógica: actualizar estado de la Compra
-            String idCompra = payment.getExternalReference();
-            Compra compra = compraService.obtenerIdCompra(idCompra);
-
-            if (compra != null) {
-                String nuevoEstado = payment.getStatus(); // "approved", "rejected", etc.
-                compra.setEstadoPago(nuevoEstado);
-                compraService.registrarCompra(compra); // o actualizarCompra si lo tienes separado
-                System.out.println("Estado de la compra actualizado a: " + nuevoEstado);
-            } else {
-                System.out.println("⚠ No se encontró una compra con ID: " + idCompra);
-            }
-
-            return ResponseEntity.ok("Pago procesado correctamente");
-
+            String respuesta = mercadoPagoService.procesarWebhook(paymentId);
+            return ResponseEntity.ok(respuesta);
         } catch (Exception e) {
-            System.out.println("Error guardando estado del pago:");
             e.printStackTrace();
             return ResponseEntity.status(500).body("Error interno procesando el webhook.");
         }
     }
+
 
 }
