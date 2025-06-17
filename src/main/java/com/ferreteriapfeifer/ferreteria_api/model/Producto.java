@@ -44,12 +44,7 @@ public class Producto {
 
 
 
-    /**
-     * Modifica el stock sumando o restando unidades.
-     *
-     * @param cantidad Cantidad a modificar (puede ser positiva o negativa).
-     * @throws IllegalArgumentException si el stock resultante es negativo.
-     */
+
    public void modificarStock(int cantidadProductos) {
        if (this.stock + cantidadProductos < 0) {
            throw new IllegalArgumentException("El stock no puede ser negativo.");

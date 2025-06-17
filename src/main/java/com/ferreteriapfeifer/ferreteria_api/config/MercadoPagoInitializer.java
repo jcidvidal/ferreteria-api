@@ -15,6 +15,6 @@ public class MercadoPagoInitializer {
     @PostConstruct
     public void init() {
         MercadoPagoConfig.setAccessToken(accessToken);
-        System.out.println("✅ MercadoPago AccessToken seteado correctamente");
+        System.out.println(" MercadoPago AccessToken seteado correctamente");
     }
 }

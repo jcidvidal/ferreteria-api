@@ -1,11 +1,17 @@
 package com.ferreteriapfeifer.ferreteria_api.service.impl;
 
 import com.ferreteriapfeifer.ferreteria_api.dto.PreferenceRequestDTO;
+import com.ferreteriapfeifer.ferreteria_api.model.Compra;
+import com.ferreteriapfeifer.ferreteria_api.model.Pago;
+import com.ferreteriapfeifer.ferreteria_api.repository.PagoRepository;
+import com.ferreteriapfeifer.ferreteria_api.service.CompraService;
 import com.ferreteriapfeifer.ferreteria_api.service.MercadoPagoService;
+import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
 import com.mercadopago.client.preference.PreferenceRequest;
 import com.mercadopago.exceptions.MPApiException;
+import com.mercadopago.resources.payment.Payment;
 import com.mercadopago.resources.preference.Preference;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +21,47 @@ import java.util.UUID;
 
 @Service
 public class MercadoPagoServiceImpl implements MercadoPagoService {
+
+    private final PagoRepository pagoRepository;
+    private final CompraService compraService;
+
+    public MercadoPagoServiceImpl(PagoRepository pagoRepository, CompraService compraService) {
+        this.pagoRepository = pagoRepository;
+        this.compraService = compraService;
+    }
+
+    public String procesarWebhook(Long paymentId) throws Exception {
+        PaymentClient client = new PaymentClient();
+        Payment payment = client.get(paymentId);
+
+        Pago pago = new Pago(
+                payment.getId(),
+                payment.getStatus(),
+                payment.getExternalReference(),
+                payment.getExternalReference(),
+                payment.getPaymentTypeId(),
+                payment.getPaymentMethodId()
+        );
+
+        pagoRepository.guardarPago(pago);
+        System.out.println("Estado del pago guardado en Firestore: " + pago.getStatus());
+
+        String idCompra = payment.getExternalReference();
+        Compra compra = compraService.obtenerIdCompra(idCompra);
+
+        if (compra != null) {
+            String nuevoEstado = payment.getStatus();
+            compra.setEstadoPago(nuevoEstado);
+            compraService.registrarCompra(compra);
+            System.out.println("Estado de la compra actualizado a: " + nuevoEstado);
+        } else {
+            System.out.println("⚠ No se encontró una compra con ID: " + idCompra);
+        }
+
+        return "Pago procesado correctamente";
+    }
+
+
 
     @Override
     public String crearPreferencia(PreferenceRequestDTO request) throws Exception {
@@ -27,11 +74,7 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
                     .build();
 
 
-            String externalReference = "ferre-pref-" + UUID.randomUUID();
-
-            String idCompra = request.getIdCompra(); // Debe venir del frontend o backend previamente creado
-             externalReference = idCompra; // clave para el Webhook
-
+            String externalReference = request.getIdCompra();
 
             PreferenceRequest preferenceRequest = PreferenceRequest.builder()
                     .items(List.of(item))

@@ -32,16 +32,12 @@ public class Boleta {
     @Schema(description = "Total acumulado de la boleta", example = "18990")
     private int total;
 
-    /**
-     * Cierra la boleta, impidiendo modificaciones.
-     */
+
     public void cerrarBoleta() {
         this.estado = "cerrada";
     }
 
-    /**
-     * Recalcula el total en base al subtotal de cada producto.
-     */
+
     public void calcularTotal() {
         detalles.forEach(DetalleProducto::calcularSubtotal);
         this.total = detalles.stream().mapToInt(DetalleProducto::getSubtotal).sum();

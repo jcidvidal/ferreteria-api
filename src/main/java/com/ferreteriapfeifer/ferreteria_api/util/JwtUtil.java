@@ -11,8 +11,8 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "clave-super-secreta-para-mi-ferreteria-1234567890"; // ¡debes mover esto a application.properties en producción!
-    private final long EXPIRATION_TIME = 1000 * 60 * 60; // 1 hora
+    private final String SECRET_KEY = "clave-super-secreta-para-mi-ferreteria-1234567890";
+    private final long EXPIRATION_TIME = 1000 * 60 * 60;
 
 
     public Claims getClaims(String token) {

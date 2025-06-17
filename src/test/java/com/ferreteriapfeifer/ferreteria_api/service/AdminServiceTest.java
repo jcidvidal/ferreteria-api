@@ -1,10 +1,9 @@
-package com.ferreteriapfeifer.ferreteria_api.Service;
+package com.ferreteriapfeifer.ferreteria_api.service;
 
 import com.ferreteriapfeifer.ferreteria_api.model.Admin;
 import com.ferreteriapfeifer.ferreteria_api.model.Persona;
 import com.ferreteriapfeifer.ferreteria_api.model.Producto;
 import com.ferreteriapfeifer.ferreteria_api.repository.AdminRepository;
-import com.ferreteriapfeifer.ferreteria_api.service.AdminService;
 import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
