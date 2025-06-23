@@ -62,3 +62,59 @@ const Login = ({ onRegisterClick }) => {
 };
 
 export default Login;
+
+//NUEVO LOGIN PRPUESTO
+
+/*import React, { useState } from "react";
+  import { signInWithEmailAndPassword } from "firebase/auth";
+  import { auth } from "../firebaseConfig";
+  import { useNavigate } from "react-router-dom";
+  import "../styles/Auth.css";
+
+  const Login = () => {
+    const [email, setEmail]       = useState("");
+    const [password, setPassword] = useState("");
+    const [role, setRole]         = useState("cliente");  //  ← nuevo
+    const [error, setError]       = useState("");
+    const navigate = useNavigate();
+
+    const handleSubmit = async e => {
+      e.preventDefault();
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        navigate(role === "admin" ? "/admin" : "/cliente");   // ← redirección
+      } catch (err) {
+        setError("Credenciales inválidas.");
+      }
+    };
+
+    return (
+      <div className="auth‑container">
+        <form className="auth‑form" onSubmit={handleSubmit}>
+          <h2>Iniciar sesión</h2>
+
+          {error && <p className="error">{error}</p>}
+
+          <input
+            type="email" placeholder="Correo electrónico" value={email}
+            onChange={e => setEmail(e.target.value)} required
+          />
+
+          <input
+            type="password" placeholder="Contraseña" value={password}
+            onChange={e => setPassword(e.target.value)} required
+          />
+
+          <select value={role} onChange={e => setRole(e.target.value)}>
+            <option value="cliente">Cliente</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <button type="submit">Entrar</button>
+        </form>
+      </div>
+    );
+  };
+
+  export default Login;
+  */
