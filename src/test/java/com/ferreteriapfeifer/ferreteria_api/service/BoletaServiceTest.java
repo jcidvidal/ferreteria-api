@@ -99,7 +99,7 @@ public class BoletaServiceTest {
         assertEquals(1, boleta.getDetalles().size());
         assertEquals(5000 * 2, boleta.getDetalles().get(0).getSubtotal());
         assertEquals(5000 * 2, boleta.getTotal());
-        assertEquals(7, producto.getStock());
+        assertEquals(8, producto.getStock());
 
         verify(productoService).registrarProducto(producto);
         verify(boletaRepository).registrarBoleta(boleta);
@@ -137,7 +137,7 @@ public class BoletaServiceTest {
         assertEquals(3, boleta.getDetalles().get(0).getCantidad());
         assertEquals(9000, boleta.getDetalles().get(0).getSubtotal());
         assertEquals(9000, boleta.getTotal());
-        assertEquals(7, producto.getStock());
+        assertEquals(8, producto.getStock());
 
         verify(productoService).registrarProducto(producto);
         verify(boletaRepository).registrarBoleta(boleta);

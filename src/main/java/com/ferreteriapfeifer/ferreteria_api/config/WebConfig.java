@@ -21,7 +21,6 @@ public class WebConfig {
                         .allowedOrigins("http://localhost:3002")
                         .allowedOrigins("http://localhost:3003")
                         .allowedOrigins("http://localhost:3004")
-x
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
