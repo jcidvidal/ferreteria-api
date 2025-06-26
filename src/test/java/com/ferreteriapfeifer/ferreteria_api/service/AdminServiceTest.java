@@ -19,16 +19,12 @@ class AdminServiceTest {
 
     private AdminService adminService;
     private AdminRepository adminRepository;
-    private PasswordUtil passwordUtil;
-
-
-
 
 
     @BeforeEach
     void setUp() {
         adminRepository = mock(AdminRepository.class);
-        passwordUtil = mock(PasswordUtil.class);
+        PasswordUtil passwordUtil = mock(PasswordUtil.class);
         adminService = new AdminService(adminRepository, passwordUtil);
     }
 

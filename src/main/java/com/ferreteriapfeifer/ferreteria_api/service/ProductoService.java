@@ -1,9 +1,7 @@
 package com.ferreteriapfeifer.ferreteria_api.service;
 
 
-import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.model.Producto;
-import com.ferreteriapfeifer.ferreteria_api.repository.ClienteRepository;
 import com.ferreteriapfeifer.ferreteria_api.repository.ProductoRepository;
 import org.springframework.stereotype.Service;
 

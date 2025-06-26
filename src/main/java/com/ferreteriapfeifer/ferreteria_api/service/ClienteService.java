@@ -4,7 +4,6 @@ import com.ferreteriapfeifer.ferreteria_api.dto.ClienteDTO;
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.repository.ClienteRepository;
 import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -18,12 +17,14 @@ public class ClienteService {
 
     private final ClienteRepository clienteRepository;
 
-    public ClienteService(ClienteRepository clienteRepository) {
+
+    private final PasswordUtil passwordUtil;
+
+    public ClienteService(ClienteRepository clienteRepository, PasswordUtil passwordUtil) {
         this.clienteRepository = clienteRepository;
+        this.passwordUtil = passwordUtil;
     }
 
-    @Autowired
-    private PasswordUtil passwordUtil;
 
 
     public void registrarCliente(Cliente cliente) throws ExecutionException, InterruptedException {
