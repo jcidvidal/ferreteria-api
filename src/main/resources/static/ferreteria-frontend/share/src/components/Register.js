@@ -15,12 +15,12 @@ const Register = () => {
     setError("");
     setSuccess("");
     try {
-      // 1. Registrar en Firebase Auth
+      //  Registrar en Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const token = await user.getIdToken();
 
-      // 2. Registrar en el back-end (Spring Boot)
+      // Registrar en el back-end (Spring Boot)
       await axios.post(
         "http://localhost:8080/api/register", 
         { email, role }, 
