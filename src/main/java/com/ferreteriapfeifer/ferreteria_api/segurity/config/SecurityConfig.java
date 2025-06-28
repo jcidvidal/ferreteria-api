@@ -23,6 +23,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors()
+                .and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
@@ -33,6 +35,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/api/admin/modificar-stock").hasAuthority("ADMIN")
                         .requestMatchers("/api/compra/**").hasAnyAuthority("CLIENTE", "ADMIN")
+                        .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);

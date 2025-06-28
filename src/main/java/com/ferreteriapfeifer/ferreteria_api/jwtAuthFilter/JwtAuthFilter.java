@@ -29,8 +29,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
+        String path = request.getRequestURI();
+
+        // --- EXCLUSIÓN DE ENDPOINTS PÚBLICOS ---
+        if (isPublicEndpoint(path)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        // --- SI NO HAY TOKEN, SIGUE (PUEDE QUE LA RUTA SEA SEMI-PÚBLICA) ---
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -38,21 +47,38 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         final String token = authHeader.substring(7);
 
+        // --- VALIDACIÓN DEL TOKEN ---
         if (!jwtUtil.isTokenValid(token)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Token inválido o expirado");
             return;
         }
 
+        // --- EXTRACCIÓN DE DATOS DEL USUARIO ---
         String username = jwtUtil.extractUsername(token);
         String rol = jwtUtil.extractRol(token);
 
+        // --- ASIGNACIÓN DE AUTORIDADES PARA SPRING SECURITY ---
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(rol));
 
         UsernamePasswordAuthenticationToken authentication =
                 new UsernamePasswordAuthenticationToken(username, null, authorities);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        // --- CONTINUAR CON LA CADENA DE FILTROS ---
         filterChain.doFilter(request, response);
+    }
+
+    // --- FUNCION PARA EXCLUIR ENDPOINTS PUBLICOS DE AUTENTICACION ---
+    private boolean isPublicEndpoint(String path) {
+        // ¡AQUÍ puedes añadir/quitar endpoints públicos a voluntad!
+        return path.startsWith("/api/auth/login")
+                || path.startsWith("/api/auth/register")
+                || path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
+                || path.equals("/") // página home si la tienes pública
+                || path.startsWith("/favicon")
+                ;
     }
 }

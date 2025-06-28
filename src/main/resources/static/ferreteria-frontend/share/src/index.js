@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App_login_default from "./App_login_default";
-import { BrowserRouter } from "react-router-dom"; // <-- Importa esto
+import { BrowserRouter } from "react-router-dom"; 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
