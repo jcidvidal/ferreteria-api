@@ -61,8 +61,8 @@ public class ClienteController {
             @ApiResponse(responseCode = "200", description = "Cliente encontrado"),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
-    @GetMapping("/{id}")
-    public ResponseEntity<ClienteDTO> obtenerIdCliente(@PathVariable("id") String idCliente) throws ExecutionException, InterruptedException {
+    @GetMapping("/{idCliente}")
+    public ResponseEntity<ClienteDTO> obtenerIdCliente(@PathVariable String idCliente) throws ExecutionException, InterruptedException {
         Cliente cliente = clienteService.obtenerIdCliente(idCliente);
         if (cliente == null) {
             return ResponseEntity.notFound().build();
@@ -75,8 +75,8 @@ public class ClienteController {
             @ApiResponse(responseCode = "204", description = "Cliente eliminado"),
             @ApiResponse(responseCode = "404", description = "Cliente no encontrado")
     })
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarCliente(@PathVariable("id") String idCliente) throws ExecutionException, InterruptedException {
+    @DeleteMapping("/{idCliente}")
+    public ResponseEntity<Void> eliminarCliente(@PathVariable String idCliente) throws ExecutionException, InterruptedException {
         clienteService.eliminarCliente(idCliente);
         return ResponseEntity.noContent().build();
     }

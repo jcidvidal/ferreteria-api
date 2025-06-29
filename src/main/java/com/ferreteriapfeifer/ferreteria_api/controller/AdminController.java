@@ -62,7 +62,7 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Admin encontrado"),
             @ApiResponse(responseCode = "404", description = "Admin no encontrado")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/{idAdmin}")
     public ResponseEntity<AdminDTO> obtenerIdAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
         Admin admin = adminService.obtenerIdAdmin(idAdmin);
         if (admin == null) {
@@ -77,16 +77,16 @@ public class AdminController {
             @ApiResponse(responseCode = "204", description = "Administrador eliminado"),
             @ApiResponse(responseCode = "404", description = "Administrador no encontrado")
     })
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{idAdmin}")
     public String eliminarAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
         adminService.eliminarAdmin(idAdmin);
         return "Admin eliminado.";
     }
 
 
-
     @Operation(summary = "Modificar stock de un producto (requiere rol ADMIN)")
     @ApiResponse(responseCode = "200", description = "Stock modificado exitosamente")
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/modificar-stock")
     public String modificarStock(
             @RequestParam String idAdmin,

@@ -1,11 +1,10 @@
-package com.ferreteriapfeifer.ferreteria_api.service.impl;
+package com.ferreteriapfeifer.ferreteria_api.service;
 
 import com.ferreteriapfeifer.ferreteria_api.Factory.PreferenceFactory;
 import com.ferreteriapfeifer.ferreteria_api.dto.PreferenceRequestDTO;
 import com.ferreteriapfeifer.ferreteria_api.model.Compra;
 import com.ferreteriapfeifer.ferreteria_api.model.Pago;
 import com.ferreteriapfeifer.ferreteria_api.repository.PagoRepository;
-import com.ferreteriapfeifer.ferreteria_api.service.CompraService;
 import com.mercadopago.client.payment.PaymentClient;
 import com.mercadopago.client.preference.PreferenceClient;
 import com.mercadopago.client.preference.PreferenceItemRequest;
@@ -16,7 +15,6 @@ import com.mercadopago.resources.preference.Preference;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
