@@ -89,14 +89,12 @@ public class AuthController {
         }
     }
 
-    // Método auxiliar simplificado
     private Optional<? extends Persona> buscarUsuarioPorEmail(String email) throws ExecutionException, InterruptedException {
         return clienteService.obtenerClientes().stream()
                 .filter(cliente -> cliente.getEmail().equalsIgnoreCase(email))
                 .findFirst();
     }
 
-    // Clases auxiliares
     @Data
     public static class RegisterRequest {
         @Email
