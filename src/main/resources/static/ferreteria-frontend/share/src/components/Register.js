@@ -22,7 +22,7 @@ const Register = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const token = await user.getIdToken();
-      console.log('TOKEN JWT DE FIREBASE:', token); // <--- Aquí puedes copiar y pegar en https://jwt.io/ para depuración
+      console.log('TOKEN JWT DE FIREBASE:', token); 
 
       // Registrar en el back-end (Spring Boot)
       await axios.post(

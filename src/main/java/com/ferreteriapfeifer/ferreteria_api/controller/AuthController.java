@@ -6,7 +6,6 @@ import com.ferreteriapfeifer.ferreteria_api.model.Persona;
 import com.ferreteriapfeifer.ferreteria_api.service.AdminService;
 import com.ferreteriapfeifer.ferreteria_api.service.ClienteService;
 import com.ferreteriapfeifer.ferreteria_api.util.JwtUtil;
-import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseToken;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,65 +29,39 @@ public class AuthController {
 
     private final AdminService adminService;
     private final ClienteService clienteService;
-    private final PasswordUtil passwordUtil;
     private final JwtUtil jwtUtil;
 
-    public AuthController(AdminService adminService, ClienteService clienteService,
-                          PasswordUtil passwordUtil, JwtUtil jwtUtil) {
+    public AuthController(AdminService adminService, ClienteService clienteService, JwtUtil jwtUtil) {
         this.adminService = adminService;
         this.clienteService = clienteService;
-        this.passwordUtil = passwordUtil;
         this.jwtUtil = jwtUtil;
     }
 
-    @Operation(
-            summary = "Login de usuario (Admin o Cliente)",
-            description = "Permite autenticarse con email y contraseña. Retorna un JWT si las credenciales son válidas."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Login exitoso, token generado"),
-            @ApiResponse(responseCode = "401", description = "Credenciales incorrectas o usuario no encontrado")
-    })
+    // LOGIN adaptado para Firebase
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Valid LoginRequest request) throws ExecutionException, InterruptedException {
-        Optional<? extends Persona> usuarioOptional = buscarUsuarioPorEmail(request.getEmail());
+    public ResponseEntity<?> login(@RequestHeader("Authorization") String authHeader) throws ExecutionException, InterruptedException {
+        try {
+            String idToken = authHeader.replace("Bearer ", "");
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
+            String emailFirebase = decodedToken.getEmail();
 
-        if (usuarioOptional.isEmpty()) {
-            return ResponseEntity.status(401).body("Usuario no encontrado.");
+            Optional<? extends Persona> usuarioOptional = buscarUsuarioPorEmail(emailFirebase);
+
+            if (usuarioOptional.isEmpty()) {
+                return ResponseEntity.status(401).body("Usuario no encontrado.");
+            }
+
+            Persona persona = usuarioOptional.get();
+            String token = jwtUtil.generateToken(persona.getRol(), persona);
+
+            return ResponseEntity.ok(new TokenResponse(token, persona.getRol()));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(401).body("Token inválido o expirado: " + e.getMessage());
         }
-
-        Persona persona = usuarioOptional.get();
-        if (!passwordUtil.matches(request.getContrasena(), persona.getContrasena())) {
-            return ResponseEntity.status(401).body("Contraseña incorrecta.");
-        }
-
-        String token = jwtUtil.generateToken(persona.getRol(), persona);
-        return ResponseEntity.ok(new TokenResponse(token, persona.getRol()));
     }
 
-    private Optional<? extends Persona> buscarUsuarioPorEmail(String email) throws ExecutionException, InterruptedException {
-        for (Admin admin : adminService.obtenerAdmins()) {
-            if (admin.getEmail().equalsIgnoreCase(email)) {
-                return Optional.of(admin);
-            }
-        }
-        for (Cliente cliente : clienteService.obtenerClientes()) {
-            if (cliente.getEmail().equalsIgnoreCase(email)) {
-                return Optional.of(cliente);
-            }
-        }
-        return Optional.empty();
-    }
-
-    @Operation(
-            summary = "Registro de usuario validado por Firebase",
-            description = "Registra un usuario luego de validar el token de Firebase."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Registro exitoso"),
-            @ApiResponse(responseCode = "401", description = "Token inválido o expirado"),
-            @ApiResponse(responseCode = "400", description = "Solicitud incorrecta")
-    })
+    // REGISTRO adaptado para Firebase
     @PostMapping("/register")
     public ResponseEntity<?> register(
             @RequestBody @Valid RegisterRequest request,
@@ -96,41 +69,34 @@ public class AuthController {
     ) {
         try {
             String idToken = authHeader.replace("Bearer ", "");
-            System.out.println("TOKEN RECIBIDO: " + idToken);
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(idToken);
-            System.out.println("TOKEN DECODED: " + decodedToken);
-
             String emailFirebase = decodedToken.getEmail();
-            System.out.println("EMAIL EN TOKEN: " + emailFirebase);
-            System.out.println("EMAIL EN REQUEST: " + request.getEmail());
 
             if (!emailFirebase.equals(request.getEmail())) {
-                return ResponseEntity.status(401).body("El email del token no coincide con el email solicitado.");
+                return ResponseEntity.status(401).body("El email del token no coincide con el solicitado.");
             }
 
             Cliente nuevoCliente = new Cliente();
             nuevoCliente.setEmail(request.getEmail());
             nuevoCliente.setRol(request.getRole().toUpperCase());
-            nuevoCliente.setContrasena(passwordUtil.encode("contraseña_por_defecto_o_vacia"));
+            nuevoCliente.setContrasena(""); // No usamos contraseña
 
             clienteService.registrarCliente(nuevoCliente);
 
             return ResponseEntity.ok("Usuario registrado correctamente");
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(401).body("Token inválido o expirado: " + e.getMessage());
         }
     }
 
-    @Data
-    public static class LoginRequest {
-        @Email
-        private String email;
-
-        @NotBlank
-        private String contrasena;
+    // Método auxiliar simplificado
+    private Optional<? extends Persona> buscarUsuarioPorEmail(String email) throws ExecutionException, InterruptedException {
+        return clienteService.obtenerClientes().stream()
+                .filter(cliente -> cliente.getEmail().equalsIgnoreCase(email))
+                .findFirst();
     }
 
+    // Clases auxiliares
     @Data
     public static class RegisterRequest {
         @Email

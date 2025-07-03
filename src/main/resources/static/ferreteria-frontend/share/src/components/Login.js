@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebaseConfig";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -8,71 +10,35 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/login", {
-        email,
-        contrasena: password
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const token = await userCredential.user.getIdToken();
+
+      const response = await axios.post("http://localhost:8080/api/auth/login", {}, {
+        headers: { Authorization: `Bearer ${token}` }
       });
 
-      const { token, rol } = res.data; // Asumiendo que backend envía el token y rol
-
-      localStorage.setItem("token", token);  // Guarda el token
-      localStorage.setItem("rol", rol);      // Guarda el rol
-
-      // Redirección según rol
-      if (rol === "admin") {
-        navigate("/admin");
-      } else if (rol === "cliente") {
-        navigate("/cliente");
-      } else {
-        navigate("/");
-      }
-
-      alert("Inicio de sesión exitoso.");
-
+      localStorage.setItem("jwtToken", response.data.token);
+      navigate("/ruta-protegida");
     } catch (err) {
-      if (err.response && err.response.data) {
-        setError(
-          typeof err.response.data === "string"
-            ? err.response.data
-            : err.response.data.message || JSON.stringify(err.response.data)
-        );
-      } else {
-        setError("Error en inicio de sesión");
-      }
+      setError("Error en login: " + (err.response?.data || err.message));
+      console.error(err);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button type="submit">Iniciar Sesión</button>
-      {error && (
-        <p style={{ color: "red" }}>{error}</p>
-      )}
-      <p>
-        ¿No tienes cuenta?
-        <button type="button" onClick={() => navigate("/register")} style={{ marginLeft: 8 }}>
-          Registrarse
-        </button>
-      </p>
+    <form onSubmit={handleLogin}>
+      <h2>Login</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <input type="email" placeholder="Email" required onChange={(e) => setEmail(e.target.value)} />
+      <input type="password" placeholder="Contraseña" required onChange={(e) => setPassword(e.target.value)} />
+      <button type="submit">Iniciar sesión</button>
+
+      <p>¿No tienes cuenta? <Link to="/register">Regístrate</Link></p>
     </form>
   );
 };
