@@ -8,7 +8,9 @@ const Register = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("cliente");
+  const [nombre, setNombre] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [rol, setRol] = useState("cliente"); // Usa 'rol' si tu backend espera 'rol'
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -26,13 +28,18 @@ const Register = () => {
 
       // Registrar en el back-end (Spring Boot)
       await axios.post(
-        "http://localhost:8080/api/auth/register", // URL CORRECTA
-        { email, role },
+        "http://localhost:8080/api/auth/register",
+        {
+          email,
+          rol,        // Cambia por 'role' si el backend espera ese campo, pero por tus modelos debería ser 'rol'
+          nombre,
+          telefono,
+          contrasena: password // <-- nombre exacto según el DTO RegisterRequest
+        },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setSuccess("¡Usuario registrado correctamente!");
-      // Redirecciona automáticamente al login después de 2 segundos
       setTimeout(() => navigate("/"), 2000);
 
     } catch (err) {
@@ -45,7 +52,6 @@ const Register = () => {
       } else {
         setError(err.message || "Error en el registro");
       }
-      // Opcional: imprime en consola para depuración avanzada
       console.error("Error en registro:", err);
     }
   };
@@ -55,6 +61,7 @@ const Register = () => {
       <h2>Registro</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       {success && <p style={{ color: "green" }}>{success}</p>}
+
       <input
         type="email"
         placeholder="Correo electrónico"
@@ -62,6 +69,7 @@ const Register = () => {
         onChange={(e) => setEmail(e.target.value)}
         required
       />
+
       <input
         type="password"
         placeholder="Contraseña"
@@ -69,10 +77,28 @@ const Register = () => {
         onChange={(e) => setPassword(e.target.value)}
         required
       />
-      <select value={role} onChange={(e) => setRole(e.target.value)}>
+
+      <input
+        type="text"
+        placeholder="Nombre completo"
+        value={nombre}
+        onChange={(e) => setNombre(e.target.value)}
+        required
+      />
+
+      <input
+        type="text"
+        placeholder="Teléfono (ej: +56912345678)"
+        value={telefono}
+        onChange={(e) => setTelefono(e.target.value)}
+        required
+      />
+
+      <select value={rol} onChange={(e) => setRol(e.target.value)}>
         <option value="cliente">Cliente</option>
         <option value="admin">Administrador</option>
       </select>
+
       <button type="submit">Registrarse</button>
     </form>
   );

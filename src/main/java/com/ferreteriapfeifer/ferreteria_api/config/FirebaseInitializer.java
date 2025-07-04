@@ -26,10 +26,10 @@ public class FirebaseInitializer {
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-                System.out.println("✅ Firebase inicializado correctamente.");
+                System.out.println(" Firebase inicializado correctamente.");
         }
         } catch (IOException e) {
-            throw new RuntimeException("❌ Error al inicializar Firebase: " + e.getMessage(), e);
+            throw new RuntimeException(" Error al inicializar Firebase: " + e.getMessage(), e);
         }
     }
 }

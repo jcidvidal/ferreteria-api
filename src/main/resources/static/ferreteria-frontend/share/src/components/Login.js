@@ -7,7 +7,7 @@ import { useNavigate, Link } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = async (e) => {
@@ -15,18 +15,47 @@ const Login = () => {
     setError("");
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      // 1. Inicia sesión en Firebase y obtiene el token
+      const userCredential = await signInWithEmailAndPassword(auth, email, contrasena);
       const token = await userCredential.user.getIdToken();
 
-      const response = await axios.post("http://localhost:8080/api/auth/login", {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // Debug: Muestra el token JWT de Firebase
+      console.log("Token JWT de Firebase:", token);
 
+      // 2. Llama al backend SOLO con el header Authorization, body vacío
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/login",
+        {}, // Body vacío, solo header
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      // Debug: Respuesta del backend
+      console.log("Respuesta backend login:", response.data);
+
+      // Guarda el token de respuesta (puede ser el mismo idToken) en localStorage
       localStorage.setItem("jwtToken", response.data.token);
-      navigate("/ruta-protegida");
+
+      // Redirige a App_cliente.js (asume que la ruta es "/app-cliente")
+      navigate("/app-cliente");
+
     } catch (err) {
-      setError("Error en login: " + (err.response?.data || err.message));
-      console.error(err);
+      // Debug: Error completo
+      console.error("Error en login:", err);
+
+      // Si el backend responde con 401 y algún mensaje
+      let mensaje = "Error en login: ";
+      if (err.response) {
+        if (err.response.data) {
+          mensaje += typeof err.response.data === "string"
+            ? err.response.data
+            : (err.response.data.message || JSON.stringify(err.response.data));
+        } else {
+          mensaje += "Respuesta vacía del servidor";
+        }
+      } else {
+        mensaje += err.message;
+      }
+      setError(mensaje);
     }
   };
 
@@ -34,10 +63,21 @@ const Login = () => {
     <form onSubmit={handleLogin}>
       <h2>Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <input type="email" placeholder="Email" required onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Contraseña" required onChange={(e) => setPassword(e.target.value)} />
+      <input
+        type="email"
+        placeholder="Email"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <input
+        type="password"
+        placeholder="Contraseña"
+        required
+        value={contrasena}
+        onChange={(e) => setContrasena(e.target.value)}
+      />
       <button type="submit">Iniciar sesión</button>
-
       <p>¿No tienes cuenta? <Link to="/register">Regístrate</Link></p>
     </form>
   );
