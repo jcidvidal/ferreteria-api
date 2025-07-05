@@ -1,7 +1,7 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
-import com.ferreteriapfeifer.ferreteria_api.dto.RegisterRequest;  // DTO de registro
-import com.ferreteriapfeifer.ferreteria_api.dto.TokenResponse;    // DTO de respuesta de token
+import com.ferreteriapfeifer.ferreteria_api.dto.RegisterRequest;  
+import com.ferreteriapfeifer.ferreteria_api.dto.TokenResponse;    
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.model.Persona;
 import com.ferreteriapfeifer.ferreteria_api.service.ClienteService;
@@ -43,12 +43,13 @@ public class AuthController {
 
             Optional<? extends Persona> usuarioOptional = buscarUsuarioPorEmail(emailFirebase);
 
+                //Este mensaje es para ver si no encuentra ningun usuario retorna un " usuario no encontrado"
             if (usuarioOptional.isEmpty()) {
-                return ResponseEntity.status(401).body("Usuario no encontrado.");
+                return ResponseEntity.status(400).body("Usuario no encontrado.");
             }
 
             Persona persona = usuarioOptional.get();
-            String rol = persona.getRol(); // El rol lo tomas del modelo
+            String rol = persona.getRol();
 
             // Respondemos con el MISMO token de Firebase y el rol del usuario
             return ResponseEntity.ok(new TokenResponse(idToken, rol));

@@ -3,6 +3,17 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import "../css/Login_style.css";
+
+//  Mapeo de rutas por el rol 
+export const MAPEO_ROLES = {
+  CLIENTE: {
+    rutaReact: "/cliente",
+  },
+  ADMIN: {
+    rutaReact: "/admin",
+  }
+};
 
 const Login = () => {
   const navigate = useNavigate();
@@ -15,71 +26,74 @@ const Login = () => {
     setError("");
 
     try {
-      // 1. Inicia sesión en Firebase y obtiene el token
       const userCredential = await signInWithEmailAndPassword(auth, email, contrasena);
       const token = await userCredential.user.getIdToken();
 
-      // Debug: Muestra el token JWT de Firebase
-      console.log("Token JWT de Firebase:", token);
-
-      // 2. Llama al backend SOLO con el header Authorization, body vacío
+      // Llama al backend con Authorization
       const response = await axios.post(
         "http://localhost:8080/api/auth/login",
-        {}, // Body vacío, solo header
+        {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // Debug: Respuesta del backend
-      console.log("Respuesta backend login:", response.data);
-
-      // Guarda el token de respuesta (puede ser el mismo idToken) en localStorage
       localStorage.setItem("jwtToken", response.data.token);
 
-      // Redirige a App_cliente.js (asume que la ruta es "/app-cliente")
-      navigate("/app-cliente");
+      const rol = response.data.rol?.toUpperCase();
+      if (rol && MAPEO_ROLES[rol]) {
+        navigate(MAPEO_ROLES[rol].rutaReact);
+      } else {
+        setError("No se reconoce el tipo de usuario. Contacte a soporte.");
+      }
 
     } catch (err) {
-      // Debug: Error completo
-      console.error("Error en login:", err);
-
-      // Si el backend responde con 401 y algún mensaje
-      let mensaje = "Error en login: ";
+      let mensaje = "";
       if (err.response) {
         if (err.response.data) {
-          mensaje += typeof err.response.data === "string"
+          mensaje = typeof err.response.data === "string"
             ? err.response.data
             : (err.response.data.message || JSON.stringify(err.response.data));
         } else {
-          mensaje += "Respuesta vacía del servidor";
+          mensaje = "Respuesta vacía del servidor";
         }
       } else {
-        mensaje += err.message;
+        mensaje = err.message;
       }
       setError(mensaje);
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <input
-        type="email"
-        placeholder="Email"
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        required
-        value={contrasena}
-        onChange={(e) => setContrasena(e.target.value)}
-      />
-      <button type="submit">Iniciar sesión</button>
-      <p>¿No tienes cuenta? <Link to="/register">Regístrate</Link></p>
-    </form>
+    <div className="login-unix-bg">
+      <form onSubmit={handleLogin} className="login-unix-container">
+        {/* Logo arriba opcional */}
+        {/* <img src="/assets/logo.png" className="login-unix-logo" alt="Logo" /> */}
+        <h2 className="login-unix-title">FERRETERIA PFEIFER</h2>
+        {/* Si quieres un botón para Google Login aquí */}
+        {/* <button className="login-unix-google">Regístrate con Google</button> */}
+        {error && <p style={{ color: "red", marginBottom: "8px" }}>{error}</p>}
+        <input
+          className="login-unix-input"
+          type="email"
+          placeholder="Email address..."
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          className="login-unix-input"
+          type="password"
+          placeholder="Password..."
+          required
+          value={contrasena}
+          onChange={(e) => setContrasena(e.target.value)}
+        />
+        <button className="login-unix-btn" type="submit">Iniciar sesión</button>
+        <div className="login-unix-small">
+          ¿No tienes cuenta?
+          <Link to="/register">Regístrate</Link>
+        </div>
+      </form>
+    </div>
   );
 };
 
