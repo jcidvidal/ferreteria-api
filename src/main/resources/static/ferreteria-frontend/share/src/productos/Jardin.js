@@ -12,8 +12,8 @@ function Jardin() {
         letterSpacing: ".8px"
       }}>
         Productos en venta
+      <GridProductos categoria="Jardin" />
       </h2>
-      <GridProductos />
     </div>
   );
 }

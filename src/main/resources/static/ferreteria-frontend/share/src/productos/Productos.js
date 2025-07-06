@@ -1,6 +1,5 @@
 import React from 'react';
-import GridProductos from './Listado_Productos'; // se utiliza la funcion de listado de productos para llamar los productos
-// de los cuales se utilzaran para mostrarlos en pagina
+import GridProductos from './Listado_Productos';
 
 function Productos() {
   return (

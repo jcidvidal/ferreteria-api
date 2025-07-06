@@ -12,7 +12,7 @@ function Materiales() {
       }}>
         Productos en venta
       </h2>
-      <GridProductos />
+      <GridProductos categoria="Materiales" />
     </div>
   );
 }

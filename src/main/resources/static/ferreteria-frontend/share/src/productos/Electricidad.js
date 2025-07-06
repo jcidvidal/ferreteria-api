@@ -1,6 +1,5 @@
 import React from 'react';
-import GridProductos from './Listado_Productos'; // se utiliza la funcion de listado de productos para llamar los productos
-                                                  // de los cuales se utilzaran para mostrarlos en pagina 
+import GridProductos from './Listado_Productos'; // o '../cliente/Listado_Productos', ajusta si es necesario
 
 function Electricidad() {
   return (
@@ -11,10 +10,11 @@ function Electricidad() {
         fontWeight: "bold",
         letterSpacing: ".8px"
       }}>
-        Productos en venta
-      </h2> 
-      <GridProductos />  
+        Productos de Electricidad
+      </h2>
+      <GridProductos categoria="electricidad" />
     </div>
   );
 }
+
 export default Electricidad;

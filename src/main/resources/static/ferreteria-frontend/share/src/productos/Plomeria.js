@@ -13,7 +13,7 @@ function Plomeria() {
       }}>
         Productos en venta
       </h2>
-      <GridProductos />
+      <GridProductos categoria="Plomeria" />
     </div>
   );
 }

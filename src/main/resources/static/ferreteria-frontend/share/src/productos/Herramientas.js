@@ -6,6 +6,7 @@ function Herramientas() {
   return (
     <div>
       <h2>Herramientas en venta</h2>
+      <p>Productos de Herramientas</p> {/* <-- aquí */}
       <GridProductos categoria="herramientas" />
     </div>
   );
