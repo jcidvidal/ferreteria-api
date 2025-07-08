@@ -1,5 +1,5 @@
 import React from 'react';
-import GridProductos from './Listado_Productos'; // o '../cliente/Listado_Productos', ajusta si es necesario
+import GridProductos from './Listado_Productos';  
 
 function Electricidad() {
   return (

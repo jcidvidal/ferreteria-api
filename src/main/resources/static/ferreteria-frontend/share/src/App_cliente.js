@@ -18,19 +18,18 @@ function App() {
     <CartProvider>
       <NavbarCliente />
       <Routes>
-        {/* Todas las rutas bajo /cliente/productos/xxx */}
-        <Route path="cliente/productos/productos" element={<Productos />} />
-        <Route path="cliente/productos/materiales" element={<Materiales />} />
-        <Route path="cliente/seguridad/seguridad" element={<Seguridad />} />
-        <Route path="cliente/productos/plomeria" element={<Plomeria />} />
-        <Route path="cliente/productos/electricidad" element={<Electricidad />} />
-        <Route path="cliente/productos/jardin" element={<Jardin />} />
-        <Route path="cliente/productos/herramientas" element={<Herramientas />} />
+        <Route path="/productos/*" element={<Productos />} />
+        <Route path="/materiales/*" element={<Materiales />} />
+        <Route path="/seguridad/*" element={<Seguridad />} />
+        <Route path="/plomeria/*" element={<Plomeria />} />
+        <Route path="/electricidad/*" element={<Electricidad />} />
+        <Route path="/jardin/*" element={<Jardin />} />
+        <Route path="/herramientas/*" element={<Herramientas />} />
    
 
-        <Route path="cliente/usuario/contacto" element={<Contacto />} />
-        <Route path="cliente/productos/carrito" element={<Carrito />} />
-        <Route path="cliente/usuario/usuario" element={<Usuario />} />
+        <Route path="/contacto/*" element={<Contacto />} />
+        <Route path="/carrito/*" element={<Carrito />} />
+        <Route path="/usuario/*" element={<Usuario />} />
         {/* Ruta principal */}
         <Route path="/" element={
           <h2 style={{ textAlign: 'center', marginTop: 40 }}>

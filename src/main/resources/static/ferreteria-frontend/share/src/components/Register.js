@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 import axios from "axios";
@@ -11,7 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [rol, setRol] = useState("cliente");
+  const [rol, setRol] = useState("CLIENTE");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 

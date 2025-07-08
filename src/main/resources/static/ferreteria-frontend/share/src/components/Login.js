@@ -65,11 +65,7 @@ const Login = () => {
   return (
     <div className="login-unix-bg">
       <form onSubmit={handleLogin} className="login-unix-container">
-        {/* Logo arriba opcional */}
-        {/* <img src="/assets/logo.png" className="login-unix-logo" alt="Logo" /> */}
         <h2 className="login-unix-title">FERRETERIA PFEIFER</h2>
-        {/* Si quieres un botón para Google Login aquí */}
-        {/* <button className="login-unix-google">Regístrate con Google</button> */}
         {error && <p style={{ color: "red", marginBottom: "8px" }}>{error}</p>}
         <input
           className="login-unix-input"

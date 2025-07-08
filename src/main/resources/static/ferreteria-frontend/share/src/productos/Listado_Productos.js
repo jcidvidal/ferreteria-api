@@ -8,7 +8,7 @@ function GridProductos({ categoria = "herramientas" }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log("[DEBUG] Categoría recibida en GridProductos:", categoria);
+    console.log("[DEBUG] Categoría recibida en GridProductos:", categoria); //mensaje para mostrar que esta funcionando el listado mediante el dom
     getDocs(collection(db, categoria))
       .then((querySnapshot) => {
         const lista = [];
@@ -19,10 +19,10 @@ function GridProductos({ categoria = "herramientas" }) {
         setProductos(lista);
         setLoading(false);
       })
-      .catch((err) => {
-        setError("Error al consultar los productos en Firebase");
+      .catch((err) => {   //envuelto en una excepcion para que muestre un mensaje de error 
+        setError("Error al consultar los productos en Firebase");  // Mensaje que se va a apreciar en pantall
         setLoading(false);
-        console.error("[DEBUG] Error al consultar Firestore:", err);
+        console.error("[DEBUG] Error al consultar Firestore:", err); //
       });
   }, [categoria]);
 
@@ -31,7 +31,7 @@ function GridProductos({ categoria = "herramientas" }) {
 
   return (
     <div>
-      <h3>Productos Debug</h3>
+      <h3>Productos</h3>
       <ul>
         {productos.map(p => (
           <li key={p.id}>{p.nombre} — {p.precio}</li>
