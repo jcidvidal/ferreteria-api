@@ -1,12 +1,12 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Productos from './productos/Productos';
-import Materiales from './productos/Materiales';
+import Materiales from './seguridad/Materiales';
 import Seguridad from './seguridad/Seguridad';
-import Plomeria from './productos/Plomeria';
-import Electricidad from './productos/Electricidad';
-import Jardin from './productos/Jardin';
-import Herramientas from './productos/Herramientas';
+import Plomeria from './seguridad/Plomeria';
+import Electricidad from './seguridad/Electricidad';
+import Jardin from './seguridad/Jardin';
+import Herramientas from './seguridad/Herramientas';
 import Contacto from './usuario/Contacto';
 import Carrito from './productos/Carrito';
 import Usuario from './usuario/Usuario';

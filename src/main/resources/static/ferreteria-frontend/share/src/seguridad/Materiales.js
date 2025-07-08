@@ -12,7 +12,7 @@ const GridProductos = ({ categoria }) => {
         const fetchProductos = async () => {
             setLoading(true);
             const productosRef = collection(db, "Productos");
-            const q = query(productosRef, where("categoria", "==", "seguridad"));
+            const q = query(productosRef, where("categoria", "==", "materiales"));
             const querySnapshot = await getDocs(q);
             const productosArr = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             console.log("[DEBUG] Docs traídos de Firestore:", productosArr);
