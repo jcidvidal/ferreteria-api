@@ -52,14 +52,14 @@ public class CompraController {
             @ApiResponse(responseCode = "200", description = "Compra encontrada"),
             @ApiResponse(responseCode = "404", description = "Compra no encontrada")
     })
-    @GetMapping("/{id}")
+    @GetMapping("/{idCompra}")
     public Compra obtenerIdCompra(@PathVariable String idCompra) throws ExecutionException, InterruptedException {
         return compraService.obtenerIdCompra(idCompra);
     }
 
     @Operation(summary = "Eliminar una compra por ID")
     @ApiResponse(responseCode = "204", description = "Compra eliminada exitosamente")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{idCompra}")
     public String eliminarCompra(@PathVariable String idCompra) throws ExecutionException, InterruptedException {
         compraService.eliminarCompra(idCompra);
         return "Compra eliminada correctamente.";
@@ -84,7 +84,7 @@ public class CompraController {
             @ApiResponse(responseCode = "200", description = "Método de pago actualizado exitosamente"),
             @ApiResponse(responseCode = "404", description = "Compra no encontrada")
     })
-    @PutMapping("/{id}/metodo-pago")
+    @PutMapping("/{idCompra}/metodo-pago")
     public ResponseEntity<String> actualizarMetodoPago(
             @PathVariable String idCompra,
             @RequestParam String metodoPago) throws ExecutionException, InterruptedException {
@@ -104,7 +104,7 @@ public class CompraController {
             @ApiResponse(responseCode = "200", description = "Comprobante generado correctamente"),
             @ApiResponse(responseCode = "404", description = "Compra no encontrada")
     })
-    @GetMapping("/{id}/comprobante")
+    @GetMapping("/{idCompra}/comprobante")
     public ResponseEntity<String> obtenerComprobante(@PathVariable String idCompra) throws ExecutionException, InterruptedException {
         Compra compra = compraService.obtenerIdCompra(idCompra);
         if (compra == null) {

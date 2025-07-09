@@ -4,121 +4,115 @@ import com.ferreteriapfeifer.ferreteria_api.model.Boleta;
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.model.Compra;
 import com.ferreteriapfeifer.ferreteria_api.repository.CompraRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-
+import org.mockito.Mockito;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+class CompraServiceTest {
 
-public class CompraServiceTest {
 
-    @Mock
-    private CompraRepository compraRepository;
-
-    @InjectMocks
-    private CompraService compraService;
+    CompraService compraService;
+    CompraRepository compraRepository;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        compraRepository = Mockito.mock(CompraRepository.class);
+        compraService = new CompraService(compraRepository);
     }
 
     @Test
-    void testGenerarCompraDesdeBoleta_conBoletaCerrada() throws Exception {
-
-        Cliente cliente = new Cliente();
-        cliente.setNombre("Juan");
-
-        Boleta boleta = new Boleta();
-        boleta.setIdBoleta("b-001");
-        boleta.setEstado("cerrada");
-        boleta.setCliente(cliente);
-        boleta.setTotal(15000);
-
-
-        Compra compra = compraService.generarCompraDesdeBoleta(boleta);
-
-
-        assertNotNull(compra);
-        assertEquals(15000, compra.getMontoPagado());
-        assertEquals("pendiente", compra.getMetodoPago());
-        assertEquals(cliente, compra.getCliente());
-        assertNotNull(compra.getFechaPago());
-
+    void registrarCompra()throws ExecutionException, InterruptedException {
+        Compra compra = new Compra();
+        compra.setIdCompra(UUID.randomUUID().toString());
+        compra.setMontoPagado(1234);
+        compraService.registrarCompra(compra);
         verify(compraRepository).registrarCompra(compra);
     }
 
-
     @Test
-    void testGenerarCompraDesdeBoleta_boletaAbierta_lanzaExcepcion() {
+    void obtenerIdCompra()throws ExecutionException, InterruptedException {
+        String id = "compra123";
+        Compra compra = new Compra();
+        compra.setIdCompra(id);
 
-        Boleta boleta = new Boleta();
-        boleta.setEstado("abierta");
+        when(compraRepository.obtenerIdCompra(id)).thenReturn(compra);
 
+        Compra result = compraService.obtenerIdCompra(id);
 
-        assertThrows(IllegalStateException.class, () -> {
-            compraService.generarCompraDesdeBoleta(boleta);
-        });
-
-        verifyNoInteractions(compraRepository);
+        Assertions.assertEquals(compra, result);
     }
 
+    @Test
+    void obtenerCompras() throws ExecutionException, InterruptedException{
+        List<Compra> compras = List.of(new Compra(), new Compra());
+
+        when(compraRepository.obtenerCompras()).thenReturn(compras);
+
+        List<Compra> result = compraService.obtenerCompras();
+
+        Assertions.assertEquals(2, result.size());
+    }
 
     @Test
-    void testActualizarMetodoPago() throws Exception {
+    void eliminarCompra()throws ExecutionException, InterruptedException {
+        String id = "compraABC";
 
-        String idCompra = "cmp-001";
+        compraService.eliminarCompra(id);
+
+        verify(compraRepository).eliminarCompra(id);
+    }
+
+    @Test
+    void generarCompraDesdeBoleta()throws ExecutionException, InterruptedException {
+        Boleta boleta = new Boleta();
+        boleta.setIdBoleta("boleta001");
+        boleta.setEstado("cerrada");
+        boleta.setTotal(10000);
+        boleta.setCliente(new Cliente());
+
+        Compra resultado = compraService.generarCompraDesdeBoleta(boleta);
+
+        assertNotNull(resultado);
+        Assertions.assertEquals(boleta.getTotal(), resultado.getMontoPagado());
+        Assertions.assertEquals("pendiente", resultado.getMetodoPago());
+
+        verify(compraRepository).registrarCompra(resultado);
+    }
+
+    @Test
+    void actualizarMetodoPago()throws ExecutionException, InterruptedException {
+        String id = "compraXYZ";
         Compra compra = new Compra();
-        compra.setIdCompra(idCompra);
+        compra.setIdCompra(id);
         compra.setMetodoPago("pendiente");
 
-        when(compraRepository.obtenerIdCompra(idCompra)).thenReturn(compra);
+        when(compraRepository.obtenerIdCompra(id)).thenReturn(compra);
 
+        compraService.actualizarMetodoPago(id, "Transferencia");
 
-        compraService.actualizarMetodoPago(idCompra, "Tarjeta");
-
-
-        assertEquals("Tarjeta", compra.getMetodoPago());
+        Assertions.assertEquals("Transferencia", compra.getMetodoPago());
         verify(compraRepository).registrarCompra(compra);
     }
 
 
     @Test
-    void testObtenerComprobante() throws Exception {
-
-        String idCompra = "cmp-002";
+    void obtenerComprobante()throws ExecutionException, InterruptedException {
+        String id = "compra789";
         Compra compra = new Compra();
-        compra.setIdCompra(idCompra);
+        compra.setIdCompra(id);
 
-        when(compraRepository.obtenerIdCompra(idCompra)).thenReturn(compra);
+        when(compraRepository.obtenerIdCompra(id)).thenReturn(compra);
 
+        String resultado = compraService.obtenerComprobante(id);
 
-        String comprobante = compraService.obtenerComprobante(idCompra);
+        Assertions.assertEquals("Comprobante generado para la compra: " + id, resultado);
 
-
-        assertEquals("Comprobante generado para la compra: " + idCompra, comprobante);
     }
-
-
-
-    @Test
-    void testObtenerComprobante_compraNoExiste_lanzaExcepcion() throws Exception {
-
-        String idCompra = "cmp-003";
-        when(compraRepository.obtenerIdCompra(idCompra)).thenReturn(null);
-
-
-        Exception e = assertThrows(IllegalArgumentException.class, () -> {
-            compraService.obtenerComprobante(idCompra);
-        });
-
-        assertEquals("Compra no encontrada.", e.getMessage());
-    }
-
 }

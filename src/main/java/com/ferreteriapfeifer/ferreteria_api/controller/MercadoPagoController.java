@@ -2,13 +2,7 @@ package com.ferreteriapfeifer.ferreteria_api.controller;
 
 import com.ferreteriapfeifer.ferreteria_api.dto.PaymentNotificationDTO;
 import com.ferreteriapfeifer.ferreteria_api.dto.PreferenceRequestDTO;
-import com.ferreteriapfeifer.ferreteria_api.model.Compra;
-import com.ferreteriapfeifer.ferreteria_api.model.Pago;
-import com.ferreteriapfeifer.ferreteria_api.repository.PagoRepository;
-import com.ferreteriapfeifer.ferreteria_api.service.CompraService;
 import com.ferreteriapfeifer.ferreteria_api.service.MercadoPagoService;
-import com.mercadopago.client.payment.PaymentClient;
-import com.mercadopago.resources.payment.Payment;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,19 +10,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pago")
 public class MercadoPagoController {
 
     private final MercadoPagoService mercadoPagoService;
-    private final CompraService compraService;
 
 
-    public MercadoPagoController(MercadoPagoService mercadoPagoService,CompraService compraService) {
+    public MercadoPagoController(MercadoPagoService mercadoPagoService) {
         this.mercadoPagoService = mercadoPagoService;
-        this.compraService = compraService;
+
     }
 
 

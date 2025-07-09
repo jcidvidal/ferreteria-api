@@ -62,14 +62,14 @@ public class BoletaController {
     }
 
     @Operation(summary = "Calcular total de una boleta")
-    @PutMapping("/{id}/calcular-total")
+    @PutMapping("/{idBoleta}/calcular-total")
     public String calcularTotal(@PathVariable String idBoleta) throws ExecutionException, InterruptedException {
         boletaService.calcularTotal(idBoleta);
         return "Total recalculado correctamente.";
     }
 
     @Operation(summary = "Cerrar una boleta")
-    @PutMapping("/{id}/cerrar")
+    @PutMapping("/{idBoleta}/cerrar")
     public String cerrarBoleta(@PathVariable String idBoleta) throws ExecutionException, InterruptedException {
         boletaService.cerrarBoleta(idBoleta);
         return "Boleta cerrada correctamente.";

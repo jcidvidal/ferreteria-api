@@ -10,3 +10,17 @@ public class RegisterRequest {
     private String telefono;
     private String contrasena;
 }
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class RegisterRequest {
+    private String email;
+    private String role;
+ }
+
+

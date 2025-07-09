@@ -4,7 +4,6 @@ import com.ferreteriapfeifer.ferreteria_api.model.Boleta;
 import com.ferreteriapfeifer.ferreteria_api.model.DetalleProducto;
 import com.ferreteriapfeifer.ferreteria_api.model.Producto;
 import com.ferreteriapfeifer.ferreteria_api.repository.BoletaRepository;
-import com.ferreteriapfeifer.ferreteria_api.service.ProductoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
