@@ -50,6 +50,7 @@ public class AdminController {
 
     @Operation(summary = "Listar todos los administradores")
     @ApiResponse(responseCode = "200", description = "Lista de administradores obtenida con éxito")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public List<AdminDTO> obtenerAdmins() throws ExecutionException, InterruptedException {
         return adminService.obtenerAdmins().stream()
@@ -62,6 +63,7 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Admin encontrado"),
             @ApiResponse(responseCode = "404", description = "Admin no encontrado")
     })
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/{idAdmin}")
     public ResponseEntity<AdminDTO> obtenerIdAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
         Admin admin = adminService.obtenerIdAdmin(idAdmin);
@@ -77,6 +79,7 @@ public class AdminController {
             @ApiResponse(responseCode = "204", description = "Administrador eliminado"),
             @ApiResponse(responseCode = "404", description = "Administrador no encontrado")
     })
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{idAdmin}")
     public String eliminarAdmin(@PathVariable String idAdmin) throws ExecutionException, InterruptedException {
         adminService.eliminarAdmin(idAdmin);

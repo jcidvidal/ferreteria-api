@@ -36,8 +36,6 @@ public class ClienteController {
     }
 
 
-
-
     @Operation(summary = "Verificar acceso exclusivo de cliente")
     @ApiResponse(responseCode = "200", description = "Acceso validado para CLIENTE")
     @PreAuthorize("hasAuthority('CLIENTE')")

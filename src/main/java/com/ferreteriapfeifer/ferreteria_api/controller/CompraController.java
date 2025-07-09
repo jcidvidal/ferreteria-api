@@ -9,12 +9,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -34,8 +33,6 @@ public class CompraController {
     @ApiResponse(responseCode = "201", description = "Compra registrada exitosamente")
     @PostMapping
     public String registrarCompra(@Valid @RequestBody Compra compra) throws ExecutionException, InterruptedException {
-        compra.setIdCompra(UUID.randomUUID().toString());
-        compra.setFechaPago(LocalDateTime.now());
         compraService.registrarCompra(compra);
         return "Compra registrada correctamente.";
     }
@@ -114,5 +111,14 @@ public class CompraController {
         return ResponseEntity.ok(comprobante);
     }
 
+    @GetMapping("/{idCompra}/comprobante-pdf")
+    public ResponseEntity<byte[]> descargarComprobantePDF(@PathVariable String idCompra) throws Exception {
+        byte[] pdf = compraService.obtenerPDFComprobante(idCompra);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=comprobante.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
 
 }

@@ -21,6 +21,7 @@ public class BoletaService {
     }
 
     public void registrarBoleta(Boleta boleta) throws ExecutionException, InterruptedException {
+        boleta.setEstado("abierta");
         boletaRepository.registrarBoleta(boleta);
     }
 
@@ -92,9 +93,9 @@ public class BoletaService {
         }
 
         producto.setStock(producto.getStock() - cantidad);
-        productoService.registrarProducto(producto); // Actualizar Firestore
+        productoService.registrarProducto(producto);
 
         boleta.calcularTotal();
-        boletaRepository.registrarBoleta(boleta); // Guardar la boleta actualizada
+        boletaRepository.registrarBoleta(boleta);
     }
 }

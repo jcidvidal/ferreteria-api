@@ -24,16 +24,16 @@ public class ProductoService {
         productoRepository.registrarProducto(producto);
     }
 
-    public Producto obtenerIdProducto(String productoId) throws ExecutionException, InterruptedException {
-        return productoRepository.obtenerIdProducto(productoId);
+    public Producto obtenerIdProducto(String idProducto) throws ExecutionException, InterruptedException {
+        return productoRepository.obtenerIdProducto(idProducto);
     }
 
     public List<Producto> obtenerProductos() throws ExecutionException, InterruptedException {
         return productoRepository.obtenerProductos();
     }
 
-    public void eliminarProducto(String productoId) throws ExecutionException, InterruptedException {
-        productoRepository.eliminarProducto(productoId);
+    public void eliminarProducto(String idProducto) throws ExecutionException, InterruptedException {
+        productoRepository.eliminarProducto(idProducto);
     }
 
 }

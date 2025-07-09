@@ -1,6 +1,7 @@
 package com.ferreteriapfeifer.ferreteria_api.model;
 
 
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IgnoreExtraProperties
 @Schema(description = "Entidad que representa un producto disponible en la ferretería.")
 public class Producto {
 
@@ -41,8 +43,6 @@ public class Producto {
     @Min(0)
     @Schema(description = "Stock disponible", example = "12")
     private int stock;
-
-
 
 
    public void modificarStock(int cantidadProductos) {

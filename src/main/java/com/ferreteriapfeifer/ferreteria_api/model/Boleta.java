@@ -1,5 +1,6 @@
 package com.ferreteriapfeifer.ferreteria_api.model;
 
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -10,6 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IgnoreExtraProperties
 @Schema(description = "Entidad que representa una boleta temporal antes de realizar la compra.")
 public class Boleta {
 
@@ -31,7 +33,6 @@ public class Boleta {
     @NotNull
     @Schema(description = "Total acumulado de la boleta", example = "18990")
     private int total;
-
 
     public void cerrarBoleta() {
         this.estado = "cerrada";

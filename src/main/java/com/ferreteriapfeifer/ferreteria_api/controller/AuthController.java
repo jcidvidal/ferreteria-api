@@ -1,6 +1,8 @@
 package com.ferreteriapfeifer.ferreteria_api.controller;
 
 
+import com.ferreteriapfeifer.ferreteria_api.dto.LoginRequest;
+import com.ferreteriapfeifer.ferreteria_api.dto.TokenResponse;
 import com.ferreteriapfeifer.ferreteria_api.model.Admin;
 import com.ferreteriapfeifer.ferreteria_api.model.Cliente;
 import com.ferreteriapfeifer.ferreteria_api.model.Persona;
@@ -13,9 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -81,17 +80,8 @@ public class AuthController {
         return Optional.empty();
     }
 
-    @Data
-    public static class LoginRequest {
-        @Email
-        private String email;
 
-        @NotBlank
-        private String contrasena;
-    }
 
-    @Data
-    public static class TokenResponse {
-        private final String token;
-    }
+
+
 }

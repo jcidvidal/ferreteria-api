@@ -1,5 +1,6 @@
 package com.ferreteriapfeifer.ferreteria_api.model;
 
+import com.google.cloud.Timestamp;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,7 @@ public class Compra implements GeneradorComprobante {
 
     @NotNull
     @Schema(description = "Fecha y hora del pago", example = "2025-05-01T14:30:00")
-    private LocalDateTime fechaPago;
+    private String fechaPago;
 
     @NotNull
     @Schema(description = "Cliente que realiza la compra")

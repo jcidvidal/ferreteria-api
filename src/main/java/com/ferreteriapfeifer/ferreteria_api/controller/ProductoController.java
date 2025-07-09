@@ -33,9 +33,9 @@ public class ProductoController {
 
     @Operation(summary = "Obtener un producto por su ID")
     @ApiResponse(responseCode = "200", description = "Producto encontrado")
-    @GetMapping("/{id}")
-    public Producto obtenerProducto(@PathVariable String id) throws ExecutionException, InterruptedException {
-        return productoService.obtenerIdProducto(id);
+    @GetMapping("/{idProducto}")
+    public Producto obtenerProducto(@PathVariable String idProducto) throws ExecutionException, InterruptedException {
+        return productoService.obtenerIdProducto(idProducto);
     }
 
     @Operation(summary = "Listar todos los productos")
@@ -48,9 +48,9 @@ public class ProductoController {
     @Operation(summary = "Eliminar un producto por ID")
     @ApiResponse(responseCode = "200", description = "Producto eliminado")
     @PreAuthorize("hasAuthority('ADMIN')")
-    @DeleteMapping("/{id}")
-    public String eliminarProducto(@PathVariable String id) throws ExecutionException, InterruptedException {
-        productoService.eliminarProducto(id);
+    @DeleteMapping("/{idProducto}")
+    public String eliminarProducto(@PathVariable String idProducto) throws ExecutionException, InterruptedException {
+        productoService.eliminarProducto(idProducto);
         return "Producto eliminado correctamente.";
     }
 }

@@ -16,8 +16,6 @@ import java.util.concurrent.ExecutionException;
 public class ClienteService {
 
     private final ClienteRepository clienteRepository;
-
-
     private final PasswordUtil passwordUtil;
 
     public ClienteService(ClienteRepository clienteRepository, PasswordUtil passwordUtil) {

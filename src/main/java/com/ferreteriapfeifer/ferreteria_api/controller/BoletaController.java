@@ -10,9 +10,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -30,8 +28,6 @@ public class BoletaController {
     @ApiResponse(responseCode = "201", description = "Boleta registrada correctamente")
     @PostMapping
     public String registrarBoleta(@Valid @RequestBody Boleta boleta) throws ExecutionException, InterruptedException {
-        boleta.setIdBoleta(UUID.randomUUID().toString());
-        boleta.setEstado("abierta");
         boletaService.registrarBoleta(boleta);
         return "Boleta registrada.";
     }

@@ -6,8 +6,6 @@ import com.ferreteriapfeifer.ferreteria_api.model.*;
 import com.ferreteriapfeifer.ferreteria_api.repository.AdminRepository;
 import com.ferreteriapfeifer.ferreteria_api.util.PasswordUtil;
 import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -31,6 +29,7 @@ public class AdminService {
             throw new IllegalArgumentException(" Ya existe un admin registrado con este correo: " + admin.getEmail());
         }
         admin.setContrasena(passwordUtil.encode(admin.getContrasena()));
+        System.out.println("Contraseña recibida: " + admin.getContrasena());
         admin.setRol("ADMIN");
         adminRepository.registrarAdmin(admin);
     }

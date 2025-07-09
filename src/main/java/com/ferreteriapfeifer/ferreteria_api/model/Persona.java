@@ -1,6 +1,7 @@
 package com.ferreteriapfeifer.ferreteria_api.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import com.google.firebase.database.annotations.NotNull;
 import jakarta.validation.constraints.Email;
@@ -11,6 +12,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IgnoreExtraProperties
 @Schema(description = "Clase base para usuarios del sistema")
 public abstract class Persona {
 
@@ -26,11 +28,11 @@ public abstract class Persona {
     @Schema(description = "Teléfono en formato internacional", example = "+56912345678")
     private String telefono;
 
-    @JsonIgnore
+
     @Schema(description = "Contraseña del usuario (mínimo 6 caracteres)", example = "segura123")
     private String contrasena;
 
-    @NotNull
+
     @Schema(description = "Rol del usuario", example = "ADMIN")
     private String rol;
 }

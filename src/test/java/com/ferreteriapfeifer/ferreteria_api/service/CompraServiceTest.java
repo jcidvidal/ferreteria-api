@@ -20,11 +20,13 @@ class CompraServiceTest {
 
     CompraService compraService;
     CompraRepository compraRepository;
+    GenerarPdfService generarPdfService;
 
     @BeforeEach
     void setUp() {
         compraRepository = Mockito.mock(CompraRepository.class);
-        compraService = new CompraService(compraRepository);
+        generarPdfService = Mockito.mock(GenerarPdfService.class);
+        compraService = new CompraService(compraRepository, generarPdfService);
     }
 
     @Test

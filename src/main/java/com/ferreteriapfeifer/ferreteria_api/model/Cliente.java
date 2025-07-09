@@ -1,5 +1,6 @@
 package com.ferreteriapfeifer.ferreteria_api.model;
 
+import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@IgnoreExtraProperties
 @Schema(description = "Representa a un cliente del sistema.")
 public class Cliente extends Persona {
 
