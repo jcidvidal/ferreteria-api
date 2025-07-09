@@ -54,8 +54,8 @@ public class BoletaServiceTest {
         Producto producto2 = new Producto();
         producto2.setPrecio(3000);
 
-        var detalle1 = new com.ferreteriapfeifer.ferreteria_api.model.DetalleProducto(producto1, 2, 0); // 10.000
-        var detalle2 = new com.ferreteriapfeifer.ferreteria_api.model.DetalleProducto(producto2, 3, 0); // 9.000
+        var detalle1 = new com.ferreteriapfeifer.ferreteria_api.model.DetalleProducto(producto1, 2, 0); 
+        var detalle2 = new com.ferreteriapfeifer.ferreteria_api.model.DetalleProducto(producto2, 3, 0);
 
         Boleta boleta = new Boleta();
         boleta.setIdBoleta(boletaId);

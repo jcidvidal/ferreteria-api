@@ -39,24 +39,30 @@ public class MercadoPagoServiceImpl implements MercadoPagoService {
     }
 
     @Override
-    public String procesarWebhook(Long paymentId) throws Exception {
-        Payment payment = paymentClient.get(paymentId);
+    public String procesarWebhook(String paymentId) throws Exception {
+        try {
+            Long idNumerico = Long.parseLong(paymentId);
+            Payment payment = paymentClient.get(idNumerico);
 
-        Pago pago = new Pago(
-                payment.getId(),
-                payment.getStatus(),
-                payment.getExternalReference(),
-                payment.getExternalReference(),
-                payment.getPaymentTypeId(),
-                payment.getPaymentMethodId()
-        );
+            Pago pago = new Pago(
+                    payment.getId(),
+                    payment.getStatus(),
+                    payment.getExternalReference(),
+                    payment.getExternalReference(),
+                    payment.getPaymentTypeId(),
+                    payment.getPaymentMethodId()
+            );
 
-        pagoRepository.guardarPago(pago);
-        System.out.println("Estado del pago guardado en Firestore: " + pago.getStatus());
+            pagoRepository.guardarPago(pago);
+            System.out.println("Estado del pago guardado en Firestore: " + pago.getStatus());
 
-        actualizarEstadoCompra(payment);
+            actualizarEstadoCompra(payment);
 
-        return "Pago procesado correctamente";
+            return "Pago procesado correctamente";
+        } catch (NumberFormatException ex) {
+            System.out.println(" ID recibido no es numérico: " + paymentId);
+            throw new IllegalArgumentException("El ID de pago recibido no es un número válido.");
+        }
     }
 
     private void actualizarEstadoCompra(Payment payment) throws ExecutionException, InterruptedException {

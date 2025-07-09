@@ -65,10 +65,8 @@ class MercadoPagoServiceImplTest {
         compra.setIdCompra(externalRef);
         when(compraService.obtenerIdCompra(externalRef)).thenReturn(compra);
 
-        // When
-        String resultado = mercadoPagoService.procesarWebhook(paymentId);
+        String resultado = mercadoPagoService.procesarWebhook(String.valueOf(paymentId));
 
-        // Then
         assertEquals("Pago procesado correctamente", resultado);
         verify(pagoRepository).guardarPago(any(Pago.class));
         verify(compraService).registrarCompra(compra);
@@ -76,7 +74,7 @@ class MercadoPagoServiceImplTest {
 
     @Test
     void crearPreferencia_deberiaRetornarUrlPago() throws Exception {
-        // Given
+
         PreferenceRequestDTO dto = new PreferenceRequestDTO("compra123", "Martillo", 2, 5000f);
 
         PreferenceItemRequest item = PreferenceItemRequest.builder()
@@ -97,10 +95,10 @@ class MercadoPagoServiceImplTest {
         when(preferenceFactory.createFromDTO(dto)).thenReturn(preferenceRequest);
         when(preferenceClient.create(preferenceRequest)).thenReturn(preference);
 
-        // When
+
         String resultado = mercadoPagoService.crearPreferencia(dto);
 
-        // Then
+
         assertNotNull(resultado);
         assertTrue(resultado.contains("https://www.mercadopago.cl/pagar"));
 

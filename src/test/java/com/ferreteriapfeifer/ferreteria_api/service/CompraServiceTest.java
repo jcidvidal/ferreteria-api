@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -105,16 +106,30 @@ class CompraServiceTest {
 
 
     @Test
-    void obtenerComprobante()throws ExecutionException, InterruptedException {
+    void obtenerPDFComprobante()throws Exception  {
         String id = "compra789";
+
+        Cliente cliente = new Cliente();
+        cliente.setNombre("Juan");
+        cliente.setEmail("juan@email.com");
+        cliente.setTelefono("12345678");
+
         Compra compra = new Compra();
         compra.setIdCompra(id);
+        compra.setCliente(cliente);
+        compra.setEstadoPago("approved");
+        compra.setMetodoPago("Transferencia");
+        compra.setFechaPago("2024-07-09T15:00:00");
+        compra.setMontoPagado(9990);
 
         when(compraRepository.obtenerIdCompra(id)).thenReturn(compra);
 
-        String resultado = compraService.obtenerComprobante(id);
+        byte[] pdfSimulado = "PDF simulado".getBytes();
 
-        Assertions.assertEquals("Comprobante generado para la compra: " + id, resultado);
+        when(generarPdfService.generarComprobantePDF(compra)).thenReturn(pdfSimulado);
 
+        byte[] resultado = compraService.obtenerPDFComprobante(id);
+
+        Assertions.assertArrayEquals(pdfSimulado, resultado);
     }
 }

@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentNotificationDTO {
-    private Long id;
+    private String id;
     private String topic;
 }

@@ -52,7 +52,7 @@ public class MercadoPagoController {
 
     @PostMapping("/webhook")
     public ResponseEntity<String> recibirWebhook(@RequestBody PaymentNotificationDTO notificacion) {
-        Long paymentId = notificacion.getId();
+        String paymentId = notificacion.getId();
         String topic = notificacion.getTopic();
 
         System.out.println("✅ Webhook recibido. Topic: " + topic + ", ID: " + paymentId);
