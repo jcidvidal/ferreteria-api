@@ -1,0 +1,113 @@
+
+
+.listadoProductosGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+    gap: 30px;
+    padding: 36px 52px 44px 40px; 
+    background: #f7f6f3;
+    min-height: 65vh;
+  }
+  
+  .cardProductoItem {
+    background: #fff;
+    border-radius: 13px;
+    box-shadow: 0 5px 18px #00000022;
+    padding: 21px 16px 19px 18px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1.5px solid #ececec; 
+    transition: box-shadow 0.19s, transform 0.17s;
+  }
+  
+  .cardProductoItem:hover {
+    box-shadow: 0 10px 32px #00000030;
+    transform: translateY(-5px) scale(1.02);
+  }
+  
+  .productoFotoMain {
+    width: 112px;
+    height: 110px;
+    object-fit: contain;
+    background: #f2eae0;
+    border-radius: 8px;
+    margin-bottom: 13px;
+    border: 1px solid #ececec;
+  }
+  
+  .cardProductoItem h3 {
+    font-size: 1.05rem;
+    margin: 0 0 9px 0;
+    color: #2f2c2b;
+    font-weight: 600;
+    letter-spacing: 0.1px;
+  }
+  
+  .cardProductoItem .descCorta {
+    font-size: 0.97rem;
+    color: #777;
+    text-align: center;
+    min-height: 38px;
+    margin-bottom: 9px;
+    margin-top: 2px;
+   
+  }
+  
+  .infoPrecioStock {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 1.02rem;
+    margin-bottom: 10px;
+  }
+  
+  .precioTextoMain {
+    color: #d77c1c;
+    font-weight: bold;
+    letter-spacing: 0.2px;
+  }
+  
+  .stockRestante {
+    color: #20a150;
+    font-size: 0.97rem;
+  }
+  
+  .btnAgregarCarrito {
+    background: #fd9a23;
+    border: none;
+    color: #fff;
+    padding: 10px 21px;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 2px 12px #ffc64024;
+    transition: background 0.12s, transform 0.09s;
+    margin-top: 3px;
+  }
+  
+  .btnAgregarCarrito:hover {
+    background: #cf7b1a;
+    transform: scale(1.04);
+  }
+  
+  @media (max-width: 770px) {
+    .listadoProductosGrid {
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      padding-left: 14px;
+      padding-right: 14px;
+    }
+    .productoFotoMain {
+      width: 92px;
+      height: 86px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .listadoProductosGrid {
+      padding: 6px;
+      gap: 18px;
+    }
+  }
+  

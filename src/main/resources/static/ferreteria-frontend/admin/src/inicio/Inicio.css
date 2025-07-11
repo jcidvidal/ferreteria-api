@@ -1,0 +1,52 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
+
+.inicio-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(to right, #1f3b73, #3e5ba9);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.inicio-bienvenida {
+  max-width: 600px;
+}
+
+.inicio-bienvenida h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.inicio-bienvenida p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.inicio-botones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+.inicio-botones button {
+  background-color: white;
+  color: #1f3b73;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.inicio-botones button:hover {
+  background-color: #d6e0f5;
+}

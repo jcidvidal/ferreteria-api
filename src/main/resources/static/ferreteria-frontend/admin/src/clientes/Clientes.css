@@ -1,0 +1,100 @@
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+}
+
+.clientes-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1f3b73;
+  padding: 10px 20px;
+  color: white;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  font-style: italic;
+  color: #f4f4f9;
+}
+
+.menu button {
+  background-color: #3e5ba9;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.menu button:hover,
+.menu button.active {
+  background-color: #567bd2;
+}
+
+.clientes-content {
+  flex: 1;
+  padding: 30px;
+  background-color: #ffffff;
+}
+
+.clientes-content h2 {
+  margin-bottom: 20px;
+  color: #1f3b73;
+}
+
+.clientes-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.clientes-table th, .clientes-table td {
+  padding: 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.clientes-table th {
+  background-color: #e6eaf5;
+  color: #1f3b73;
+}
+
+.btn-detalles,
+.btn-editar {
+  padding: 6px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-detalles {
+  background-color: #2196f3;
+  color: white;
+}
+
+.btn-editar {
+  background-color: #4caf50;
+  color: white;
+}
+
+.btn-detalles:hover {
+  background-color: #1976d2;
+}
+
+.btn-editar:hover {
+  background-color: #388e3c;
+}
