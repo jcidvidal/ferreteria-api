@@ -35,6 +35,7 @@ public class AdminController {
     @ApiResponse(responseCode = "201", description = "Administrador registrado correctamente")
     @PostMapping
     public String registrarAdmin(@Valid @RequestBody Admin admin) throws ExecutionException, InterruptedException {
+        admin.getContrasena();
         adminService.registrarAdmin(admin);
         return "Admin registrado.";
     }
