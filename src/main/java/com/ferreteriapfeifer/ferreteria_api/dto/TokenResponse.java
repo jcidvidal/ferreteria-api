@@ -9,4 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TokenResponse {
     private String token;
+
+@Data
+@AllArgsConstructor
+public class TokenResponse {
+    private String token;
+    private String rol;
 }

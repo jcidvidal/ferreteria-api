@@ -15,7 +15,10 @@ public class FirebaseInitializer {
     @PostConstruct
     public void initialize() {
         try {
-            InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("cred/firebase-config.json");
+            InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream("firebase-config.json");
+            if (serviceAccount == null) {
+                throw new RuntimeException("firebase-config.json no encontrado en resources!");
+            }
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
@@ -23,11 +26,10 @@ public class FirebaseInitializer {
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-                System.out.println("✅ Firebase inicializado correctamente.");
-            }
-
+                System.out.println(" Firebase inicializado correctamente.");
+        }
         } catch (IOException e) {
-            throw new RuntimeException("❌ Error al inicializar Firebase: " + e.getMessage(), e);
+            throw new RuntimeException(" Error al inicializar Firebase: " + e.getMessage(), e);
         }
     }
 }

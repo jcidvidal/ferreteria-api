@@ -12,9 +12,6 @@ import lombok.NoArgsConstructor;
 @IgnoreExtraProperties
 @Schema(description = "Representa a un cliente del sistema.")
 public class Cliente extends Persona {
-
     @Schema(description = "ID único del cliente", example = "dcf7-3bcf-9ee4")
     private String idCliente;
 }
-
-

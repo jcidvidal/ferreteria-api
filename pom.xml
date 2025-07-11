@@ -30,7 +30,6 @@
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -121,6 +120,8 @@
 	</dependencies>
 
 	<build>
+
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -191,3 +192,4 @@
 
 
 </project>
+

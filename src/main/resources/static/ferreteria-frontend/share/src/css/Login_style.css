@@ -1,0 +1,94 @@
+.login-unix-bg {
+  min-height: 100vh;
+  background: #a97442; /* Café suave */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-unix-container {
+  background: #fff;
+  padding: 2.5rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 32px 0 rgba(0,0,0,0.15);
+  width: 340px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.login-unix-logo {
+  width: 85px;
+  margin-bottom: 1.2rem;
+  margin-top: -48px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+  padding: 6px 8px;
+}
+
+.login-unix-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #444;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.login-unix-google {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  padding: 7px 0;
+  background: #f6f6f6;
+  border: 1px solid #b0b0b0;
+  color: #222;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background .2s;
+}
+.login-unix-google:hover {
+  background: #e5e5e5;
+}
+
+.login-unix-input {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 9px;
+  border-radius: 4px;
+  border: 1px solid #bbb;
+  font-size: 1rem;
+  background: #f6f6f6;
+}
+
+.login-unix-btn {
+  width: 100%;
+  padding: 10px 0;
+  background: #FF6700;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+  cursor: pointer;
+  transition: background .2s;
+}
+.login-unix-btn:hover {
+  background: #e65500;
+}
+
+.login-unix-small {
+  font-size: .91rem;
+  text-align: center;
+  margin-top: 4px;
+  color: #333;
+}
+.login-unix-small a {
+  color: #ff6700;
+  text-decoration: underline;
+  margin-left: 4px;
+}
