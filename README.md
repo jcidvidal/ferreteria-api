@@ -13,17 +13,17 @@
 ![Spring Security](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
-* [cite_start]**Seguridad:** Implementación de filtros **JWT** para autenticación y manejo de roles[cite: 16, 49].
-* [cite_start]**Persistencia:** Repositorios para el acceso y gestión de datos en la nube[cite: 34, 43].
+* **Seguridad:** Implementación de filtros **JWT** para autenticación y manejo de roles.
+* **Persistencia:** Repositorios para el acceso y gestión de datos en la nube.
 
 ### Frontend (Arquitectura React)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
 
-* [cite_start]**Comunicación:** Uso de **Axios** para solicitudes HTTP (POST, DELETE) al backend[cite: 21, 26].
-* [cite_start]**Componentes Clave:** * `App.js`: Gestiona la carga de datos y funciones globales[cite: 20].
-    * [cite_start]`UserForm.js`: Captura datos de usuario y realiza envíos mediante solicitudes POST[cite: 25].
-    * [cite_start]`UserList.js`: Visualiza la información y gestiona eliminaciones mediante solicitudes DELETE[cite: 26].
+* **Comunicación:** Uso de **Axios** para solicitudes HTTP (POST, DELETE) al backend.
+* **Componentes Clave:** * `App.js`: Gestiona la carga de datos y funciones globales.
+    * `UserForm.js`: Captura datos de usuario y realiza envíos mediante solicitudes POST.
+    * `UserList.js`: Visualiza la información y gestiona eliminaciones mediante solicitudes DELETE.
 
 ### Integraciones
 ![Mercado Pago](https://img.shields.io/badge/Mercado_Pago-009EE3?style=for-the-badge&logo=mercadopago&logoColor=white)
@@ -33,10 +33,10 @@
 
 ## ✨ Funcionalidades Principales
 
-* [cite_start]**Para Clientes:** Permite comprar productos de ferretería en línea y recibir boletas digitales[cite: 14].
-* [cite_start]**Para Administradores:** Facilita la gestión integral de productos y el estricto control de stock[cite: 15].
-* [cite_start]**Seguridad:** Control de accesos mediante autenticación y roles para restringir la visibilidad según el perfil del usuario[cite: 16].
-* [cite_start]**Gestión de Ventas:** Registro, cálculo automático de totales y generación de comprobantes de pago en PDF[cite: 112, 132].
+* **Para Clientes:** Permite comprar productos de ferretería en línea y recibir boletas digitales.
+* **Para Administradores:** Facilita la gestión integral de productos y el estricto control de stock.
+* **Seguridad:** Control de accesos mediante autenticación y roles para restringir la visibilidad según el perfil del usuario.
+* **Gestión de Ventas:** Registro, cálculo automático de totales y generación de comprobantes de pago en PDF.
 
 ---
 
