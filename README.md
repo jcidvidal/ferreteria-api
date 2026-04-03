@@ -41,31 +41,31 @@
 ---
 
 ## 🏗️ Arquitectura del Software
-[cite_start]El sistema sigue una estructura profesional para asegurar escalabilidad y orden[cite: 37]:
+El sistema sigue una estructura profesional para asegurar escalabilidad y orden:
 
 | Capa / Componente | Responsabilidad |
 | :--- | :--- |
-| **Controller** | [cite_start]Punto de entrada que define los endpoints consumidos por el frontend[cite: 39]. |
-| **DTO** | [cite_start]Encargado de la transferencia y control de la información en la red[cite: 40]. |
-| **Model** | [cite_start]Representa los objetos de la lógica de negocio (Usuario, Producto, Compra, etc.)[cite: 42]. |
-| **Service** | [cite_start]Orquestador de la lógica de negocio y procesos complejos[cite: 44]. |
-| **Repository** | [cite_start]Responsable de la persistencia y el acceso a los datos[cite: 43]. |
-| **Factory** | [cite_start]Creación de objetos complejos con lógica adicional[cite: 45]. |
-| **Util / Security** | [cite_start]Utilidades de encriptación, validación de JWT y reglas de acceso[cite: 46, 49]. |
+| **Controller** | Punto de entrada que define los endpoints consumidos por el frontend. |
+| **DTO** | Encargado de la transferencia y control de la información en la red. |
+| **Model** | Representa los objetos de la lógica de negocio (Usuario, Producto, Compra, etc.). |
+| **Service** | Orquestador de la lógica de negocio y procesos complejos. |
+| **Repository** | Responsable de la persistencia y el acceso a los datos. |
+| **Factory** | Creación de objetos complejos con lógica adicional. |
+| **Util / Security** | Utilidades de encriptación, validación de JWT y reglas de acceso. |
 
 ---
 
 ## 🧪 Calidad de Código (Unit Testing)
-[cite_start]El proyecto incluye pruebas unitarias robustas para garantizar la fiabilidad de los procesos críticos[cite: 52]:
-* [cite_start]**AdminService:** Verificación de existencia de usuarios, modificación de stock y control de permisos [cite: 61-64].
-* [cite_start]**BoletaService:** Lógica de manejo de ventas, cálculo de totales y gestión de excepciones por boletas cerradas [cite: 110-113, 163-170].
-* [cite_start]**CompraService:** Registro de transacciones, actualización de métodos de pago y obtención de comprobantes en PDF[cite: 131, 132].
-* [cite_start]**MercadoPagoService:** Pruebas de integración para el procesamiento de pagos mediante webhooks [cite: 154-156].
+El proyecto incluye pruebas unitarias robustas para garantizar la fiabilidad de los procesos críticos:
+* **AdminService:** Verificación de existencia de usuarios, modificación de stock y control de permisos.
+* **BoletaService:** Lógica de manejo de ventas, cálculo de totales y gestión de excepciones por boletas cerradas.
+* **CompraService:** Registro de transacciones, actualización de métodos de pago y obtención de comprobantes en PDF.
+* **MercadoPagoService:** Pruebas de integración para el procesamiento de pagos mediante webhooks.
 
 ---
 
 ## 👥 Equipo y Contexto Académico
-[cite_start]Este proyecto fue desarrollado para la asignatura de **Programación Orientada a Objetos** con entrega el 09/07/2025[cite: 2]:
-* [cite_start]**Juan Pablo Cid Vidal** ([@jcidvidal](https://github.com/jcidvidal)) - Arquitectura Backend, Seguridad y Lógica[cite: 2].
-* [cite_start]**Jorge Pfeifer** ([@JorgePfeifer](https://github.com/JorgePfeifer)) - Desarrollo y Lógica[cite: 2].
-* [cite_start]**Marco Venegas** ([@m4c4c0-spec](https://github.com/m4c4c0-spec)) - Desarrollo y Frontend[cite: 2].
+Este proyecto fue desarrollado para la asignatura de **Programación Orientada a Objetos** con entrega el 09/07/2025:
+* **Juan Pablo Cid Vidal** ([@jcidvidal](https://github.com/jcidvidal)) - Arquitectura Backend, Seguridad y Lógica.
+* **Jorge Pfeifer** ([@JorgePfeifer](https://github.com/JorgePfeifer)) - Desarrollo y Lógica.
+* **Marco Venegas** ([@m4c4c0-spec](https://github.com/m4c4c0-spec)) - Desarrollo y Frontend.
